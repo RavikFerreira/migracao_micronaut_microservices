@@ -8,6 +8,6 @@ import jakarta.persistence.Entity;
 public class Application {
 
     public static void main(String[] args) {
-        Micronaut.run(com.tables.Application.class, args);
+        Micronaut.run(Application.class, args);
     }
 }

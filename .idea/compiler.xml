@@ -13,7 +13,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <option name="micronaut.processing.group" value="com.example" />
-        <option name="micronaut.processing.module" value="table-services" />
+        <option name="micronaut.processing.module" value="orquestrator-services" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-inject-java/4.5.3/micronaut-inject-java-4.5.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar" />
@@ -49,6 +49,7 @@
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/serde/micronaut-serde-api/2.10.1/micronaut-serde-api-2.10.1.jar" />
         </processorPath>
         <module name="orquestrator-services" />
+        <module name="menu-services" />
       </profile>
       <profile name="Annotation profile for table-services" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -91,7 +92,28 @@
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/serde/micronaut-serde-api/2.10.1/micronaut-serde-api-2.10.1.jar" />
         </processorPath>
         <module name="table-services" />
-        <module name="menu-services" />
+      </profile>
+      <profile name="Annotation profile for orders-services" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-inject-java/4.5.3/micronaut-inject-java-4.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/2.0.13/slf4j-api-2.0.13.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-core-processor/4.5.3/micronaut-core-processor-4.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-inject/4.5.3/micronaut-inject-4.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-core/4.5.3/micronaut-core-4.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-aop/4.5.3/micronaut-aop-4.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/ow2/asm/asm-tree/9.7/asm-tree-9.7.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/ow2/asm/asm/9.7/asm-9.7.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/ow2/asm/asm-commons/9.7/asm-commons-9.7.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/javaparser/javaparser-symbol-solver-core/3.25.10/javaparser-symbol-solver-core-3.25.10.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/javaparser/javaparser-core/3.25.10/javaparser-core-3.25.10.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-core-reactive/4.5.3/micronaut-core-reactive-4.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar" />
+        </processorPath>
         <module name="orders-services" />
       </profile>
     </annotationProcessing>
@@ -104,9 +126,9 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="menu-services" options="-parameters -Amicronaut.processing.group=com.tables -Amicronaut.processing.module=table-services" />
-      <module name="orders-services" options="-parameters -Amicronaut.processing.group=com.tables -Amicronaut.processing.module=table-services" />
-      <module name="orquestrator-services" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=table-services" />
+      <module name="menu-services" options="-parameters" />
+      <module name="orders-services" options="-parameters" />
+      <module name="orquestrator-services" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=orquestrator-services" />
       <module name="table-services" options="-parameters -Amicronaut.processing.group=com.tables -Amicronaut.processing.module=table-services" />
       <module name="table-services (1)" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=table-services" />
       <module name="table-services (1) (com.example)" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=table-services" />

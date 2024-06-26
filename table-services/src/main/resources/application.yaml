@@ -8,16 +8,6 @@ data:
     database: admin
     uri: ${MONGO_DB_URI:mongodb://admin:123456@localhost:27017}
 
-
-jpa:
-  default:
-    properties:
-      hibernate.show_sql: true
-      hibernate.format_sql: true
-      hibernate.hbm2ddl.auto: update
-    entity-scan:
-      packages: com.tables.models
-
 redis:
   uri: redis://localhost:6379
   ssl: true
@@ -37,4 +27,14 @@ flyway:
 kafka:
   bootstrap:
     servers: localhost:9092
+  topic:
+    start: start
+    notify: notify
 
+  consumer:
+    group-id: table-group
+    auto-offset-reset: latest
+
+logger:
+  levels:
+    org.apache.kafka: OFF

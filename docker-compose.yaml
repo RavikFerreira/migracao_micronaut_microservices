@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3"
 services:
   table-db:
     image: mongo:latest
@@ -7,64 +7,116 @@ services:
     networks:
       - orquestrator-services
     environment:
-      - MONGO_INITDB_ROOT_USERNAME =tables
-      - MONGO_INITDB_ROOT_PASSWORD =123456
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=123456
     ports:
       - 27017:27017
 
   postgres-db:
-    image: postgres:latest
+    image: postgres:16
     container_name: postgres-db
     networks:
       - orquestrator-services
     environment:
-      - POSTGRES_DB=postgres-db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=2503
+      POSTGRES_DB: postgres-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2503
     ports:
-      - 5432:5432
+      - "5432:5432"
 
-  zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper
-    restart: always
+  redpanda-console:
+    container_name: redpanda-console
+    image: docker.redpanda.com/vectorized/console:latest
+    restart: on-failure
+    entrypoint: /bin/sh
+    command: -c "echo \"$$CONSOLE_CONFIG_FILE\" > /tmp/config.yml; /app/console"
     ports:
-      - "2181:2181"
+      - "8081:8080"
     networks:
       - orquestrator-services
-
-  kafdrop:
-    image: obsidiandynamics/kafdrop
-    restart: "no"
-    ports:
-      - "9000:9000"
     environment:
-      KAFKA_BROKERCONNECT: "kafka:29092"
+      CONFIG_FILEPATH: /tmp/config.yml
+      CONSOLE_CONFIG_FILE: |
+        kafka:
+          brokers: ["kafka:29092"]
     depends_on:
-      - kafka
-    networks:
-      - orquestrator-services
+      - "kafka"
 
   kafka:
     container_name: kafka
-    image: wurstmeister/kafka
-    restart: always
+    image: obsidiandynamics/kafka
+    restart: "no"
     ports:
       - "9092:9092"
+    networks:
+      - orquestrator-services
     environment:
       KAFKA_LISTENERS: "INTERNAL://:29092,EXTERNAL://:9092"
       KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:29092,EXTERNAL://localhost:9092"
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT"
       KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ZOOKEEPER_SESSION_TIMEOUT: "6000"
       KAFKA_RESTART_ATTEMPTS: "10"
       KAFKA_RESTART_DELAY: "5"
-      ZOOKEEPER_AUTOPURGE_PURGE_INTERVAL: "0"
+    volumes:
+      - ./data/kafka/data:/var/lib/kafka/data
+
+  menu-services:
+    build: './menu-services'
+    container_name: menu-services
     depends_on:
-      - zookeeper
+      - postgres-db
+      - kafka
     networks:
       - orquestrator-services
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      DATASOURCES_DEFAULT_URL: jdbc:postgresql://postgres-db:5432/postgres-db
+      DATASOURCES_DEFAULT_USERNAME: postgres
+      DATASOURCES_DEFAULT_PASSWORD: 2503
+    ports:
+      - "8084:8084"
+
+  orders-services:
+    build: './orders-services'
+    container_name: orders-services
+    depends_on:
+      - postgres-db
+      - kafka
+    networks:
+      - orquestrator-services
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      DATASOURCES_DEFAULT_URL: jdbc:postgresql://postgres-db:5432/postgres-db
+      DATASOURCES_DEFAULT_USERNAME: postgres
+      DATASOURCES_DEFAULT_PASSWORD: 2503
+    ports:
+      - "8082:8082"
+
+  table-services:
+    build: './table-services'
+    container_name: table-services
+    depends_on:
+      - table-db
+      - kafka
+    networks:
+      - orquestrator-services
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      DATABASE_URL: mongodb://admin:123456@table-db:27017
+    ports:
+      - "8083:8083"
+
+  orquestrator-services:
+    build: './orquestrator-services'
+    container_name: orquestrator-services
+    depends_on:
+      - kafka
+    networks:
+      - orquestrator-services
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    ports:
+      - 3000:3000
 
 networks:
   orquestrator-services:
