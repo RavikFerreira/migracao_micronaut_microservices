@@ -60,25 +60,9 @@ services:
     volumes:
       - ./data/kafka/data:/var/lib/kafka/data
 
-  menu-services:
-    build: './menu-services'
-    container_name: menu-services
-    depends_on:
-      - postgres-db
-      - kafka
-    networks:
-      - orquestrator-services
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      DATASOURCES_DEFAULT_URL: jdbc:postgresql://postgres-db:5432/postgres-db
-      DATASOURCES_DEFAULT_USERNAME: postgres
-      DATASOURCES_DEFAULT_PASSWORD: 2503
-    ports:
-      - "8084:8084"
-
-  orders-services:
-    build: './orders-services'
-    container_name: orders-services
+  payment-services:
+    build: './payment-services'
+    container_name: payment-services
     depends_on:
       - postgres-db
       - kafka
