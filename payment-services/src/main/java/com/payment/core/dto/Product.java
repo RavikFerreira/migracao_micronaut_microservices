@@ -1,29 +1,29 @@
 package com.payment.core.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Id;
+import io.micronaut.serde.annotation.Serdeable;
 
 import java.io.Serial;
 import java.io.Serializable;
 
-
+@Serdeable
 public class Product implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @JsonIgnore
     private String id;
     private String idProduct;
     private String name;
-    private Double price = 0.0;
+    private double price = 0.0;
+    private int quantity;
 
-    public Product(String id,String idProduct, String name, Double price) {
+    public Product(String id, String idProduct, String name, double price, int quantity) {
         this.id = id;
         this.idProduct = idProduct;
         this.name = name;
         this.price = price;
+        this.quantity = quantity;
     }
+
     public Product(){}
 
     public String getId() {
@@ -50,11 +50,19 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
