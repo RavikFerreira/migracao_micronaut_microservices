@@ -3,10 +3,9 @@ micronaut:
   server:
     port: 8083
 
-data:
-  mongodb:
-    database: admin
-    uri: ${MONGO_DB_URI:mongodb://admin:123456@localhost:27017}
+
+mongodb:
+  uri: "mongodb://localhost:27017/table-db"
 
 redis:
   uri: redis://localhost:6379

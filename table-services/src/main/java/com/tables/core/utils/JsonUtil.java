@@ -1,6 +1,6 @@
-package com.example.core.utils;
+package com.tables.core.utils;
 
-import com.example.core.dto.Event;
+import com.tables.core.models.Event;
 import io.micronaut.serde.ObjectMapper;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;

@@ -1,6 +1,6 @@
-package com.example.core.utils;
+package com.payment.core.utils;
 
-import com.example.core.dto.Event;
+import com.payment.core.dto.Event;
 import io.micronaut.serde.ObjectMapper;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;

@@ -76,19 +76,21 @@
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/data/micronaut-data-model/4.8.1/micronaut-data-model-4.8.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/projectreactor/reactor-core/3.5.11/reactor-core-3.5.11.jar" />
           <entry name="$MAVEN_REPOSITORY$/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/data/micronaut-data-document-processor/4.8.1/micronaut-data-document-processor-4.8.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/serde/micronaut-serde-processor/2.10.1/micronaut-serde-processor-2.10.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/serde/micronaut-serde-api/2.9.0/micronaut-serde-api-2.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-context/4.4.0/micronaut-context-4.4.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-json-core/4.4.0/micronaut-json-core-4.4.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-http/4.5.3/micronaut-http-4.5.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-context-propagation/4.4.0/micronaut-context-propagation-4.4.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/micronaut/data/micronaut-data-document-model/4.8.1/micronaut-data-document-model-4.8.1.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-graal/4.5.3/micronaut-graal-4.5.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-http-validation/4.5.3/micronaut-http-validation-4.5.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-http-server/4.5.3/micronaut-http-server-4.5.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-http/4.5.3/micronaut-http-4.5.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-context/4.5.0/micronaut-context-4.5.0.jar" />
-          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-context-propagation/4.5.3/micronaut-context-propagation-4.5.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-router/4.5.3/micronaut-router-4.5.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-websocket/4.5.3/micronaut-websocket-4.5.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-http-client-core/4.5.3/micronaut-http-client-core-4.5.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-json-core/4.5.0/micronaut-json-core-4.5.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-discovery-core/4.5.3/micronaut-discovery-core-4.5.3.jar" />
-          <entry name="$MAVEN_REPOSITORY$/io/micronaut/serde/micronaut-serde-processor/2.10.1/micronaut-serde-processor-2.10.1.jar" />
-          <entry name="$MAVEN_REPOSITORY$/io/micronaut/serde/micronaut-serde-api/2.10.1/micronaut-serde-api-2.10.1.jar" />
         </processorPath>
         <module name="table-services" />
       </profile>

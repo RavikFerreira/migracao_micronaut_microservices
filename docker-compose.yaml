@@ -7,7 +7,7 @@ services:
     networks:
       - orquestrator-services
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_USERNAME=table-db
       - MONGO_INITDB_ROOT_PASSWORD=123456
     ports:
       - 27017:27017
@@ -86,7 +86,7 @@ services:
       - orquestrator-services
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      DATABASE_URL: mongodb://admin:123456@table-db:27017
+      DATABASE_URL: mongodb://table-db:123456@table-db:27017
     ports:
       - "8083:8083"
 

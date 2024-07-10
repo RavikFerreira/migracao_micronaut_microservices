@@ -1,4 +1,4 @@
-package com.example.core.enums;
+package com.payment.core.enums;
 
 public enum EStatus {
     SUCCESS,
