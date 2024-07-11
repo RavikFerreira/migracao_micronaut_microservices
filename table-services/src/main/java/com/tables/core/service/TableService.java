@@ -107,7 +107,7 @@ public class TableService {
         return tables;
     }
 
-    public Event createPayload(TableBar tables){
+    private Event createPayload(TableBar tables){
         Event event = new Event();
         event.setTableId(tables.getIdTable());
         event.setTransactionId(String.format(TRANSACTION_ID_PATTERN, Instant.now().getEpochSecond(), UUID.randomUUID()));

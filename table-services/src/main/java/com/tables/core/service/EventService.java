@@ -27,7 +27,7 @@ public class EventService {
         LOG.info("TableID {} with notified! TransactionID: {} " + event.getTableId(),  event.getTransactionId());
     }
     public List<Event> findAll(){
-        return eventRepository.findAll();
+        return eventRepository.findAllOrderByCreatedAtDesc();
     }
 
     private Event findByTableId(String tableId){
