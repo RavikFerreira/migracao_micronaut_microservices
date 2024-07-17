@@ -103,9 +103,13 @@ public class TableService {
             }
         }
         if (!orderNotExists) {
-            productExists.setQuantity(1);
             products.add(productExists);
         }
+        tables.setAccount(tables.getOrder().getProducts()
+                .stream()
+                .map( product -> product.getPrice() * product.getQuantity())
+                .reduce(0.0, Double::sum));
+
         tableRepository.update(tables);
         return tables;
     }
