@@ -3,7 +3,7 @@ package com.tables.core.controller;
 
 import com.tables.config.exceptions.CannotCreateATableWithTheSameId;
 import com.tables.config.exceptions.CannotDeleteABusyTable;
-import com.tables.config.exceptions.OrderResourceNotFoundException;
+import com.tables.config.exceptions.ProductResourceNotFoundException;
 import com.tables.config.exceptions.TablesResourceNotFoundException;
 import com.tables.core.models.TableBar;
 import com.tables.core.service.TableService;
@@ -41,7 +41,7 @@ public class TableController {
         return HttpResponse.ok(addOrder);
     }
     @Patch("addProductInOrder/{idTable}/{idProduct}")
-    public HttpResponse<TableBar> addProductInOrder(@PathVariable String idTable, @PathVariable String idProduct) throws OrderResourceNotFoundException {
+    public HttpResponse<TableBar> addProductInOrder(@PathVariable String idTable, @PathVariable String idProduct) throws ProductResourceNotFoundException {
         TableBar product = tableService.addProductInOrder(idTable, idProduct);
         return HttpResponse.created(product);
     }
@@ -55,6 +55,17 @@ public class TableController {
     @Delete("delete/{idTable}")
     public HttpResponse<TableBar> delete(@PathVariable String idTable) throws CannotDeleteABusyTable {
         tableService.delete(idTable);
+        return HttpResponse.ok();
+    }
+
+    @Get("payment/{idTable}")
+    public HttpResponse<TableBar> realizedPayment(@PathVariable String idTable){
+        tableService.realizedPayment(idTable);
+        return HttpResponse.ok();
+    }
+    @Get("finallyOrder/{idTable}")
+    public HttpResponse<TableBar> finalizedTable(@PathVariable String idTable){
+        tableService.finalizedTable(idTable);
         return HttpResponse.ok();
     }
 }

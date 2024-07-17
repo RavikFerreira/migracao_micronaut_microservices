@@ -1,7 +1,6 @@
 package com.tables.core.controller;
 
 import com.tables.config.exceptions.ItIsNotPossibleToAddAProductToTheMenuWithTheSameId;
-import com.tables.config.exceptions.OrderResourceNotFoundException;
 import com.tables.config.exceptions.UnableToEditAnOrderFromATable;
 import com.tables.core.models.Product;
 import com.tables.core.service.ProductService;

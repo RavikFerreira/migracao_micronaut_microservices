@@ -25,13 +25,7 @@ public class Producer {
         try {
             LOG.info("Sending event to topic {} with data {}", startTopic, payload);
             ProducerRecord<String, Object> record = new ProducerRecord<>(startTopic, payload);
-            kafkaProducer.send(record, (metadata, exception) -> {
-                if (exception == null) {
-                    LOG.info("Successfully sent record to topic {} with metadata {}", startTopic, metadata);
-                } else {
-                    LOG.error("Error sending record to topic {} with data {}", startTopic, payload, exception);
-                }
-            });
+            kafkaProducer.send(record);
         } catch (Exception e) {
             LOG.error("Error trying to send data to topic {} with data {}", startTopic, payload, e);
         }

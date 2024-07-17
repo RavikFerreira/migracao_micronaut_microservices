@@ -1,7 +1,7 @@
 package com.tables.core.service;
 
 import com.tables.config.exceptions.ItIsNotPossibleToAddAProductToTheMenuWithTheSameId;
-import com.tables.config.exceptions.OrderResourceNotFoundException;
+import com.tables.config.exceptions.ProductResourceNotFoundException;
 import com.tables.core.models.Product;
 import com.tables.core.repository.ProductRepository;
 import com.tables.core.repository.TableRepository;
@@ -34,7 +34,7 @@ public class ProductService {
         return product;
     }
     public Product searchProduct(String idProduct){
-        Product product = productRepository.findByIdProduct(idProduct).orElseThrow(() -> new OrderResourceNotFoundException(idProduct));
+        Product product = productRepository.findByIdProduct(idProduct).orElseThrow(() -> new ProductResourceNotFoundException(idProduct));
         return product;
     }
 
@@ -51,7 +51,7 @@ public class ProductService {
     }
 
     public Product deleteProduct(String idProduct) {
-        Product product = productRepository.findByIdProduct(idProduct).orElseThrow(() -> new OrderResourceNotFoundException(idProduct));
+        Product product = productRepository.findByIdProduct(idProduct).orElseThrow(() -> new ProductResourceNotFoundException(idProduct));
         productRepository.delete(product);
         return product;
     }

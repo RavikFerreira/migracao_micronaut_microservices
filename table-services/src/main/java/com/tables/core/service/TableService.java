@@ -3,7 +3,8 @@ package com.tables.core.service;
 
 import com.tables.config.exceptions.CannotCreateATableWithTheSameId;
 import com.tables.config.exceptions.CannotDeleteABusyTable;
-import com.tables.config.exceptions.OrderResourceNotFoundException;
+import com.tables.config.exceptions.PaymentNotRealizedException;
+import com.tables.config.exceptions.ProductResourceNotFoundException;
 import com.tables.config.exceptions.TablesResourceNotFoundException;
 import com.tables.core.kafka.Producer;
 import com.tables.core.models.Event;
@@ -11,6 +12,7 @@ import com.tables.core.models.Order;
 import com.tables.core.models.Product;
 import com.tables.core.models.TableBar;
 import com.tables.core.models.enums.State;
+import com.tables.core.repository.EventRepository;
 import com.tables.core.repository.ProductRepository;
 import com.tables.core.repository.TableRepository;
 import com.tables.core.utils.JsonUtil;
@@ -31,6 +33,8 @@ public class TableService {
 
     @Inject
     private TableRepository tableRepository;
+    @Inject
+    private EventRepository eventRepository;
     @Inject
     private ProductRepository productRepository;
     @Inject
@@ -72,18 +76,18 @@ public class TableService {
     }
     public TableBar addOrder(String idTable){
         TableBar tables = tableRepository.findByIdTable(idTable).orElseThrow(() -> new CannotCreateATableWithTheSameId("Cannot create a table with the same id: " + idTable));
-
-        Order order = new Order();
-        tables.setOrder(order);
-        tables.setState(State.OCUPADO);
-        order.setIdOrder(tables.getIdTable());
-
-        tableRepository.update(tables);
+        if(tables.getOrder() == null){
+            Order order = new Order();
+            tables.setOrder(order);
+            tables.setState(State.OCUPADO);
+            order.setIdOrder(tables.getIdTable());
+            tableRepository.update(tables);
+        }
         return tables;
     }
     public TableBar addProductInOrder(String idTable, String idProduct) {
-        TableBar tables = tableRepository.findByIdTable(idTable).orElseThrow(() -> new TablesResourceNotFoundException(idTable));
-        Product productExists = productRepository.findByIdProduct(idProduct).orElseThrow(() -> new OrderResourceNotFoundException(idProduct));
+        TableBar tables = tableRepository.findByIdTable(idTable).orElseThrow(() -> new TablesResourceNotFoundException("Tables resource not found!"));
+        Product productExists = productRepository.findByIdProduct(idProduct).orElseThrow(() -> new ProductResourceNotFoundException("Product resource not found!"));
 
         boolean orderNotExists = false;
         List<Product> products = tables.getOrder().getProducts();
@@ -103,7 +107,6 @@ public class TableService {
             products.add(productExists);
         }
         tableRepository.update(tables);
-        producer.sendEvent(jsonUtil.toJson(createPayload(tables)));
         return tables;
     }
 
@@ -140,5 +143,26 @@ public class TableService {
         }
         return tables;
     }
+    public TableBar realizedPayment(String idTable){
+        TableBar tables = tableRepository.findByIdTable(idTable).orElseThrow(() -> new TablesResourceNotFoundException("Tables resource not found! "));
+        producer.sendEvent(jsonUtil.toJson(createPayload(tables)));
+        return tables;
+    }
 
+    public TableBar finalizedTable(String idTable){
+        Event event = eventRepository.findTop1ByTableIdOrderByCreatedAtDesc(idTable).orElseThrow(() -> new TablesResourceNotFoundException("Tables resource not found!"));
+        TableBar tables = tableRepository.findByIdTable(event.getTableId()).orElseThrow(() -> new TablesResourceNotFoundException("Tables resource not found! "));
+        if(event.getSource() == null  && event.getStatus() ==  null){
+            throw new PaymentNotRealizedException("Payment not realized!");
+        }
+        if(!event.getSource().equals("ORQUESTRATOR")  && !event.getStatus().equals("SUCCESS")) {
+            throw new PaymentNotRealizedException("Payment not realized!");
+        }
+        else {
+            tables.setState(State.LIVRE);
+            tables.setOrder(null);
+            tableRepository.update(tables);
+        }
+        return tables;
+    }
 }

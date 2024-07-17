@@ -19,8 +19,8 @@ public class GlobalExceptionHandler {
         StandardError err = new StandardError(status ,error, ex.getMessage(), request.getPath());
         return HttpResponse.status(status).body(err);
     }
-    @Error(exception = OrderResourceNotFoundException.class)
-    public HttpResponse<StandardError> handleOrderResourceNotFoundException(OrderResourceNotFoundException ex, HttpRequest request) {
+    @Error(exception = ProductResourceNotFoundException.class)
+    public HttpResponse<StandardError> handleOrderResourceNotFoundException(ProductResourceNotFoundException ex, HttpRequest request) {
         String error = "Não existe pedido com esse id!";
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError(status ,error, ex.getMessage(), request.getPath());
@@ -74,6 +74,13 @@ public class GlobalExceptionHandler {
     public HttpResponse<StandardError> handleGenericException(Throwable ex, HttpRequest<?> request) {
         String error = "Ocorreu um erro inesperado!";
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        StandardError err = new StandardError(status, error, ex.getMessage(), request.getPath());
+        return HttpResponse.status(status).body(err);
+    }
+    @Error(exception = PaymentNotRealizedException.class)
+    public HttpResponse<StandardError> handlePaymentNotRealizedException(PaymentNotRealizedException ex, HttpRequest request) {
+        String error = "Pagamento não realizado!";
+        HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError(status, error, ex.getMessage(), request.getPath());
         return HttpResponse.status(status).body(err);
     }
