@@ -2,11 +2,12 @@ package com.example.core.dto;
 
 import com.example.core.enums.EEventSource;
 import com.example.core.enums.EStatus;
+import io.micronaut.serde.annotation.Serdeable;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-@Builder
+@Serdeable
 public class History {
 
     private EEventSource source;

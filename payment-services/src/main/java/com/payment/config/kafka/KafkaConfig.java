@@ -4,16 +4,20 @@ import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Value;
 import jakarta.inject.Singleton;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 @Factory
+@RequiredArgsConstructor
 public class KafkaConfig {
 
     private static final int PARTITIONS_COUNT = 1;
@@ -25,48 +29,57 @@ public class KafkaConfig {
     private String groupId;
     @Value("${kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
-
     @Value("${kafka.topic.orquestrator}")
     private String orquestratorTopic;
     @Value("${kafka.topic.payment-success}")
-    private String payment_successTopic;
+    private String paymentSuccessTopic;
     @Value("${kafka.topic.payment-fail}")
-    private String payment_failTopic;
+    private String paymentFailTopic;
 
     @Singleton
-    private KafkaConsumer<String, String> consumeProps() {
-        Properties props = new Properties();
+    @Bean
+    public KafkaConsumer<String, String> kafkaConsumer() {
+        return new KafkaConsumer<>(consumerProps());
+    }
+
+    private Map<String, Object> consumerProps() {
+        Map<String,Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
-        return new KafkaConsumer<>(props);
+        return props;
     }
 
+    @Bean
+    @Singleton
+    public KafkaProducer<String, String> kafkaProducer() {
+        return new KafkaProducer<>(producerProps());
+    }
 
-    private KafkaProducer<String, String> producerProps() {
-        Properties props = new Properties();
+    private Map<String, Object> producerProps() {
+        Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        return new KafkaProducer<>(props);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return props;
     }
 
     private NewTopic buildTopic(String name){
-        return new NewTopic(name, PARTITIONS_COUNT, (short) REPLICA_COUNT);
+        NewTopic topic =  new NewTopic(name, PARTITIONS_COUNT, (short) REPLICA_COUNT);
+        return topic;
     }
-
     @Bean
     public NewTopic orquestratorTopic(){
         return buildTopic(orquestratorTopic);
     }
     @Bean
     public NewTopic payment_successTopic(){
-        return buildTopic(payment_successTopic);
+        return buildTopic(paymentSuccessTopic);
     }
     @Bean
     public NewTopic payment_failTopic(){
-        return buildTopic(payment_failTopic);
+        return buildTopic(paymentFailTopic);
     }
 }

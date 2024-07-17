@@ -5,7 +5,7 @@ micronaut:
 
 
 mongodb:
-  uri: "mongodb://localhost:27017/table-db"
+  uri: mongodb://localhost:27017/table-db
 
 redis:
   uri: redis://localhost:6379

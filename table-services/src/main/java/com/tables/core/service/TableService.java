@@ -27,7 +27,7 @@ import java.util.UUID;
 @Singleton
 public class TableService {
 
-    private static final String TRANSACTION_ID_PATTERN = "%s %s";
+    private static final String TRANSACTION_ID_PATTERN = "%s_%s";
 
     @Inject
     private TableRepository tableRepository;

@@ -1,6 +1,6 @@
 package com.payment.core.dto;
 
-import com.payment.core.models.enums.State;
+import com.payment.core.dto.enums.State;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.io.Serial;

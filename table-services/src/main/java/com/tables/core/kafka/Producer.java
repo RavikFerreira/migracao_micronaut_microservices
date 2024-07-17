@@ -16,7 +16,7 @@ public class Producer {
     private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
 
     @Inject
-    private KafkaProducer<String, String> kafkaProducer;
+    private KafkaProducer<String, Object> kafkaProducer;
 
     @Value("${kafka.topic.start}")
     private String startTopic;
@@ -24,7 +24,7 @@ public class Producer {
     public void sendEvent(String payload){
         try {
             LOG.info("Sending event to topic {} with data {}", startTopic, payload);
-            ProducerRecord<String, String> record = new ProducerRecord<>(startTopic, payload);
+            ProducerRecord<String, Object> record = new ProducerRecord<>(startTopic, payload);
             kafkaProducer.send(record, (metadata, exception) -> {
                 if (exception == null) {
                     LOG.info("Successfully sent record to topic {} with metadata {}", startTopic, metadata);

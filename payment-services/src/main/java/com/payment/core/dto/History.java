@@ -1,11 +1,12 @@
 package com.payment.core.dto;
 
 import com.payment.core.enums.EStatus;
+import io.micronaut.serde.annotation.Serdeable;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-@Builder
+@Serdeable
 public class History {
 
     private String source;

@@ -1,6 +1,5 @@
 package com.tables.core.models;
 
-import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.LocalDateTime;

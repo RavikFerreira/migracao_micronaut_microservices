@@ -9,6 +9,7 @@ import com.payment.core.models.Payment;
 import com.payment.core.utils.JsonUtil;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +20,7 @@ import static com.payment.core.enums.EStatus.ROLLBACK_PENDING;
 import static com.payment.core.enums.EStatus.SUCCESS;
 
 @Singleton
+@AllArgsConstructor
 public class PaymentService {
     private static final Logger LOG = LoggerFactory.getLogger(PaymentService.class);
 
@@ -59,7 +61,7 @@ public class PaymentService {
     public void createPendingPayment(Event event){
         double totalAmount = calculateAmount(event);
         Payment payment = new Payment();
-        payment.setTableId(event.getPayload().getIdTable());
+        payment.setTableId(event.getPayload().getId());
         payment.setTransactionId(event.getTransactionId());
         payment.setTotalAmount(totalAmount);
         save(payment);
@@ -128,12 +130,12 @@ public class PaymentService {
     }
 
     private Payment findByTableIdAndTransactionId(Event event){
-        return paymentRepository.findByTableIdAndTransactionId(event.getPayload().getIdTable(), event.getTransactionId())
+        return paymentRepository.findByTableIdAndTransactionId(event.getPayload().getId(), event.getTransactionId())
                 .orElseThrow(() -> new RuntimeException("Payment not found by TableId and TransactionId. "));
     }
 
     public void save(Payment payment){
-        paymentRepository.save(payment);
+        paymentRepository.update(payment);
 
     }
 }

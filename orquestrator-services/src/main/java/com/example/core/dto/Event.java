@@ -2,27 +2,34 @@ package com.example.core.dto;
 
 import com.example.core.enums.EEventSource;
 import com.example.core.enums.EStatus;
-import lombok.Builder;
+import io.micronaut.serde.annotation.Serdeable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-@Builder
+import static io.micronaut.core.util.CollectionUtils.isEmpty;
+
+@Serdeable
 public class Event {
 
     private String id;
     private String transactionId;
-    private String orderId;
-    private Order payload;
+    private String tableId;
+    private TableBar payload;
+    @Enumerated(EnumType.STRING)
     private EEventSource source;
+    @Enumerated(EnumType.STRING)
     private EStatus status;
     private List<History> eventHistory;
     private LocalDateTime createdAt;
 
-    public Event(String id, String transactionId, String orderId, Order payload, EEventSource source, EStatus status, List<History> eventHistory, LocalDateTime createdAt) {
+    public Event(String id, String transactionId, String tableId, TableBar payload, EEventSource source, EStatus status, List<History> eventHistory, LocalDateTime createdAt) {
         this.id = id;
         this.transactionId = transactionId;
-        this.orderId = orderId;
+        this.tableId = tableId;
         this.payload = payload;
         this.source = source;
         this.status = status;
@@ -49,19 +56,19 @@ public class Event {
         this.transactionId = transactionId;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getTableId() {
+        return tableId;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
     }
 
-    public Order getPayload() {
+    public TableBar getPayload() {
         return payload;
     }
 
-    public void setPayload(Order payload) {
+    public void setPayload(TableBar payload) {
         this.payload = payload;
     }
 
@@ -96,4 +103,12 @@ public class Event {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    public void addToHistory(History history){
+        if(isEmpty(eventHistory)){
+            eventHistory = new ArrayList<>();
+        }
+        eventHistory.add(history);
+    }
 }
+
