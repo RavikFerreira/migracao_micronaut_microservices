@@ -1,5 +1,6 @@
 package com.tables.core.service;
 
+import com.tables.config.exceptions.TablesResourceNotFoundException;
 import com.tables.core.dto.EventFilters;
 import com.tables.core.models.Event;
 import com.tables.core.repository.EventRepository;
@@ -35,24 +36,22 @@ public class EventService {
                 .orElseThrow(() -> new RuntimeException("Event not found by tableID."));
     }
 
-    private Event findByTransactionId(String transactionId){
-        return eventRepository.findTop1ByTransactionIdOrderByCreatedAtDesc(transactionId)
-                .orElseThrow(() -> new RuntimeException("Event not found by transactionID."));
-    }
 
-    public Event findByFilters(EventFilters filters){
-        validateEmptyFilters(filters);
-        if(!isEmpty(filters.getTableId())){
-            return findByTableId(filters.getTableId());
+    public Event findByFilters(String tableId){
+        validateEmptyFilters(tableId);
+        if(!isEmpty(tableId)){
+            return findByTableId(tableId);
         }
-        else {
-            return findByTransactionId(filters.getTransactionId());
+        else{
+            throw new TablesResourceNotFoundException("Table not found");
         }
     }
 
-    private void validateEmptyFilters(EventFilters filters){
-        if(isEmpty(filters.getTableId())&& isEmpty(filters.getTransactionId())){
-            throw new RuntimeException("TableId or TransactionID must be informed.");
+    private void validateEmptyFilters(String tableId){
+        EventFilters filters = new EventFilters();
+        filters.setTableId(tableId);
+        if(isEmpty(filters.getTableId())){
+            throw new RuntimeException("TableId must be informed.");
         }
     }
 

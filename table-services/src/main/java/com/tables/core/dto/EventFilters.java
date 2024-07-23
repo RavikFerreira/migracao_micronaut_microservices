@@ -10,6 +10,9 @@ public class EventFilters {
     private String tableId;
     private String transactionId;
 
+    public EventFilters() {
+    }
+
     public String getTableId() {
         return tableId;
     }
