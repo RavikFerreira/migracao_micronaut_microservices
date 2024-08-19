@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.tables</groupId>
-  <artifactId>tables-services</artifactId>
+  <artifactId>table-services</artifactId>
   <version>0.1</version>
   <packaging>${packaging}</packaging>
 
@@ -134,6 +134,22 @@
       <scope>runtime</scope>
     </dependency>
 
+
+<!-- MICROMETER -->
+    <dependency>
+      <groupId>io.micronaut.micrometer</groupId>
+      <artifactId>micronaut-micrometer-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.micrometer</groupId>
+      <artifactId>micronaut-micrometer-registry-prometheus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-management</artifactId>
+    </dependency>
+
+
   </dependencies>
   <build>
     <plugins>
@@ -208,7 +224,7 @@
           </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Amicronaut.processing.group=com.tables</arg>
-            <arg>-Amicronaut.processing.module=tables-services</arg>
+            <arg>-Amicronaut.processing.module=table-services</arg>
           </compilerArgs>
         </configuration>
       </plugin>

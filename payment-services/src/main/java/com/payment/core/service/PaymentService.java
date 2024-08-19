@@ -29,7 +29,6 @@ public class PaymentService {
     private static final Double REDUCE_SUM_VALUE = 0.0;
     private static final Double MIN_AMOUNT_VALUE = 0.1;
 
-
     @Inject
     private JsonUtil jsonUtil;
     @Inject
@@ -88,7 +87,7 @@ public class PaymentService {
         save(payment);
     }
 
-    private  void handleSuccess(Event event){
+    private void handleSuccess(Event event){
         event.setStatus(SUCCESS);
         event.setSource(CURRENT_SOURCE);
         addHistory(event, "Payment realized successfully");
