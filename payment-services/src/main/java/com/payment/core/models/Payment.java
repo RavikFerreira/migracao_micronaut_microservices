@@ -37,8 +37,6 @@ public class Payment implements Serializable {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
     @Column(nullable = false)
-    private int totalItems;
-    @Column(nullable = false)
     private double totalAmount;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -46,13 +44,12 @@ public class Payment implements Serializable {
 
     public Payment() {}
 
-    public Payment(Long id, String tableId, String transactionId, LocalDateTime createdAt, LocalDateTime updatedAt, int totalItems, double totalAmount, EPaymentStatus status) {
+    public Payment(Long id, String tableId, String transactionId, LocalDateTime createdAt, LocalDateTime updatedAt, double totalAmount, EPaymentStatus status) {
         this.id = id;
         this.tableId = tableId;
         this.transactionId = transactionId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.totalItems = totalItems;
         this.totalAmount = totalAmount;
         this.status = status;
     }
@@ -95,14 +92,6 @@ public class Payment implements Serializable {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public int getTotalItems() {
-        return totalItems;
-    }
-
-    public void setTotalItems(int totalItems) {
-        this.totalItems = totalItems;
     }
 
     public double getTotalAmount() {

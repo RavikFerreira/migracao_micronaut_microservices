@@ -1,5 +1,6 @@
 package com.payment.core.kafka;
 
+import com.payment.core.service.PaymentService;
 import com.payment.core.utils.JsonUtil;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.Topic;
@@ -14,6 +15,7 @@ public class Consumer {
 
     private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
 
+    private PaymentService paymentService;
     @Inject
     private JsonUtil jsonUtil;
 
@@ -21,12 +23,12 @@ public class Consumer {
     public void consumerPaymentSuccessEvent(String payload){
         LOG.info("Receiving ending notification event {} from payment-success topic" , payload);
         var event = jsonUtil.toEvent(payload);
-        LOG.info(event.toString());
+        paymentService.realizedPayment(event);
     }
     @Topic("${kafka.topic.payment-fail}")
     public void consumerPaymentFailEvent(String payload){
         LOG.info("Receiving ending notification event {} from payment-fail topic" , payload);
         var event = jsonUtil.toEvent(payload);
-        LOG.info(event.toString());
+        paymentService.realizedRefund(event);
     }
 }
