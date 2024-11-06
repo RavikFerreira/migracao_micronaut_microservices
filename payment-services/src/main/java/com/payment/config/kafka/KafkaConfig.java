@@ -1,6 +1,5 @@
-package com.example.config.kafka;
+package com.payment.config.kafka;
 
-import com.example.core.enums.ETopic;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Value;
@@ -27,9 +26,15 @@ public class KafkaConfig {
     @Value("${kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
 
+    @Value("${kafka.topic.orquestrator}")
+    private String orquestratorTopic;
+    @Value("${kafka.topic.payment-success}")
+    private String payment_successTopic;
+    @Value("${kafka.topic.payment-fail}")
+    private String payment_failTopic;
+
     @Singleton
-    @Bean
-    public KafkaConsumer<String, String> consumeProps() {
+    private KafkaConsumer<String, String> consumeProps() {
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
@@ -39,9 +44,8 @@ public class KafkaConfig {
         return new KafkaConsumer<>(props);
     }
 
-    @Singleton
-    @Bean
-    public KafkaProducer<String, String> producerProps() {
+
+    private KafkaProducer<String, String> producerProps() {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
@@ -54,31 +58,15 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic startTopic(){
-        return buildTopic(ETopic.START.getTopic());
-    }
-    @Bean
     public NewTopic orquestratorTopic(){
-        return buildTopic(ETopic.ORQUESTRATOR.getTopic());
-    }
-    @Bean
-    public NewTopic notifyTopic(){
-        return buildTopic(ETopic.NOTIFY.getTopic());
-    }
-    @Bean
-    public NewTopic finish_successTopic(){
-        return buildTopic(ETopic.FINISH_SUCCESS.getTopic());
-    }
-    @Bean
-    public NewTopic finish_failTopic(){
-        return buildTopic(ETopic.FINISH_FAIL.getTopic());
+        return buildTopic(orquestratorTopic);
     }
     @Bean
     public NewTopic payment_successTopic(){
-        return buildTopic(ETopic.PAYMENT_SUCCESS.getTopic());
+        return buildTopic(payment_successTopic);
     }
     @Bean
     public NewTopic payment_failTopic(){
-        return buildTopic(ETopic.PAYMENT_FAIL.getTopic());
+        return buildTopic(payment_failTopic);
     }
 }
