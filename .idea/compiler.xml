@@ -141,15 +141,18 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="menu-services" target="17" />
+      <module name="orders-services" target="17" />
       <module name="table-services (1)" target="21" />
       <module name="table-services (1) (com.example)" target="21" />
       <module name="table-services (2) (com.tables)" target="21" />
       <module name="table-services (3)" target="21" />
+      <module name="tables-services" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="menu-services" options="-parameters" />
+      <module name="orders-services" options="-parameters" />
       <module name="orquestrator-services" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=orquestrator-services" />
       <module name="payment-services" options="-parameters -Amicronaut.processing.group=com.payment -Amicronaut.processing.module=payment-services" />
       <module name="table-services" options="-parameters -Amicronaut.processing.group=com.tables -Amicronaut.processing.module=table-services" />
@@ -157,6 +160,7 @@
       <module name="table-services (1) (com.example)" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=table-services" />
       <module name="table-services (2) (com.tables)" options="-parameters -Amicronaut.processing.group=com.tables -Amicronaut.processing.module=table-services" />
       <module name="table-services (3)" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=table-services" />
+      <module name="tables-services" options="-parameters -Amicronaut.processing.group=com.tables -Amicronaut.processing.module=table-services" />
     </option>
   </component>
 </project>

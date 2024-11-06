@@ -16,6 +16,8 @@ import com.tables.core.repository.EventRepository;
 import com.tables.core.repository.ProductRepository;
 import com.tables.core.repository.TableRepository;
 import com.tables.core.utils.JsonUtil;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -43,6 +45,12 @@ public class TableService {
     private JsonUtil jsonUtil;
     @Inject
     private EventService eventService;
+    @Inject
+    private final Counter counter;
+
+    public TableService(MeterRegistry meterRegistry){
+        this.counter = meterRegistry.counter("table_create_amount");
+    }
 
     public List<TableBar> list(){
         List<TableBar> tableBars = tableRepository.findAll();
@@ -71,6 +79,7 @@ public class TableService {
         tables.setState(State.LIVRE);
 
         tableRepository.save(tables);
+        counter.increment();
 
         return tables;
     }

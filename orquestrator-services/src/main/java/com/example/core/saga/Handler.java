@@ -11,9 +11,7 @@ import static com.example.core.enums.ETopic.PAYMENT_FAIL;
 import static com.example.core.enums.ETopic.PAYMENT_SUCCESS;
 
 public final class Handler {
-    private Handler(){
-
-    }
+    private Handler(){}
 
     public static final Object[][] HANDLER = {
             {ORQUESTRATOR, SUCCESS, PAYMENT_SUCCESS},

@@ -62,6 +62,7 @@ public class OrquestratorService {
     private ETopic getTopic (Event event){
         return sagaExecutionController.getNextTopic(event);
     }
+
     private void addHistory(Event event, String message){
         History history = new History();
         history.setSource(event.getSource());

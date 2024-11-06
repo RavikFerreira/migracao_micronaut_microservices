@@ -2,6 +2,14 @@
 micronaut:
   server:
     port: 8083
+  export:
+    prometheus:
+      enabled: true
+      step: PT1M
+      descriptions: true
+endpoints:
+  prometheus:
+    sensitive: false
 
 
 mongodb:
@@ -26,6 +34,7 @@ flyway:
 kafka:
   bootstrap:
     servers: localhost:9092
+
   topic:
     start: start
     notify: notify
@@ -37,3 +46,9 @@ kafka:
 logger:
   levels:
     org.apache.kafka: OFF
+
+
+
+
+
+
