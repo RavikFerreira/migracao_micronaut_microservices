@@ -123,7 +123,7 @@ services:
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     ports:
-      - "3000:3000"
+      - "4000:4000"
 
 networks:
   orquestrator-services:
