@@ -66,12 +66,12 @@
     <dependency>
       <groupId>io.micronaut.data</groupId>
       <artifactId>micronaut-data-hibernate-jpa</artifactId>
-      <scope>compile</scope>
+      <version>4.8.1</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.data</groupId>
       <artifactId>micronaut-data-tx-hibernate</artifactId>
-      <scope>compile</scope>
+      <version>4.8.1</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.serde</groupId>
@@ -120,10 +120,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-core</artifactId>
       <version>4.4.8</version>
@@ -133,10 +129,6 @@
       <artifactId>micronaut-runtime</artifactId>
       <scope>compile</scope>
     </dependency>
-      <dependency>
-          <groupId>io.micronaut</groupId>
-          <artifactId>micronaut-core</artifactId>
-      </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -147,6 +139,7 @@
       <plugin>
         <groupId>io.micronaut.maven</groupId>
         <artifactId>micronaut-maven-plugin</artifactId>
+        <version>4.6.3</version>
         <configuration>
           <shared>true</shared>
           <configFile>aot-${packaging}.properties</configFile>
@@ -158,14 +151,11 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.10.1</version>
         <configuration>
+          <source>21</source>
+          <target>21</target>
           <!-- Uncomment to enable incremental compilation -->
           <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
 
@@ -184,12 +174,6 @@
               <groupId>io.micronaut.data</groupId>
               <artifactId>micronaut-data-document-processor</artifactId>
               <version>4.8.1</version>
-              <exclusions>
-                <exclusion>
-                  <groupId>io.micronaut</groupId>
-                  <artifactId>micronaut-inject</artifactId>
-                </exclusion>
-              </exclusions>
             </path>
             <path>
               <groupId>io.micronaut</groupId>
@@ -205,12 +189,6 @@
               <groupId>io.micronaut.serde</groupId>
               <artifactId>micronaut-serde-processor</artifactId>
               <version>${micronaut.serialization.version}</version>
-              <exclusions>
-                <exclusion>
-                  <groupId>io.micronaut</groupId>
-                  <artifactId>micronaut-inject</artifactId>
-                </exclusion>
-              </exclusions>
             </path>
           </annotationProcessorPaths>
           <compilerArgs>

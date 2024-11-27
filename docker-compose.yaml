@@ -10,13 +10,13 @@ services:
     ports:
       - "27017:27017"
 
-  postgres-db:
+  payment-db:
     image: postgres:16
-    container_name: postgres-db
+    container_name: payment-db
     networks:
       - orquestrator-services
     environment:
-      POSTGRES_DB: postgres-db
+      POSTGRES_DB: payment-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 2503
     ports:
@@ -87,13 +87,13 @@ services:
     build: './payment-services'
     container_name: payment-services
     depends_on:
-      - postgres-db
+      - payment-db
       - kafka
     networks:
       - orquestrator-services
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      DATASOURCES_DEFAULT_URL: jdbc:postgresql://postgres-db:5432/postgres-db
+      DATASOURCES_DEFAULT_URL: jdbc:postgresql://payment-db:5432/payment-db
       DATASOURCES_DEFAULT_USERNAME: postgres
       DATASOURCES_DEFAULT_PASSWORD: 2503
     ports:
