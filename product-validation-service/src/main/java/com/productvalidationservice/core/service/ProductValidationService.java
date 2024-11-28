@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Singleton
 public class ProductValidationService {
     private static final Logger LOG = LoggerFactory.getLogger(ProductValidationService.class);
-    private static final String CURRENT_SOURCE = "PRODUCT_VALIDATION_SERVICE";
+    private static final String CURRENT_SOURCE = "PRODUCT_VALIDATION";
 
     @Inject
     private JsonUtil jsonUtil;
@@ -87,7 +87,6 @@ public class ProductValidationService {
 
     private void addHistory(Event event, String message) {
         History history = new History();
-
         history.setSource(event.getSource());
         history.setStatus(event.getStatus());
         history.setMessage(message);
