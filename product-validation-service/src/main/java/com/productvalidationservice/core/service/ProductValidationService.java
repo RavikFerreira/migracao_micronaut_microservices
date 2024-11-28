@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
-
 @Singleton
 public class ProductValidationService {
     private static final Logger LOG = LoggerFactory.getLogger(ProductValidationService.class);

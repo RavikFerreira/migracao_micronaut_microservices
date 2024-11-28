@@ -20,13 +20,13 @@ public class Consumer {
     private JsonUtil jsonUtil;
 
     @Topic("${kafka.topic.product-validation-success}")
-    public void consumerPaymentSuccessEvent(String payload){
+    public void consumerProductValidationSuccessEvent(String payload){
         LOG.info("Receiving success event {} from product-validation-success topic" , payload);
         Event event = jsonUtil.toEvent(payload);
         productValidationService.validateExistingProducts(event);
     }
     @Topic("${kafka.topic.product-validation-fail}")
-    public void consumerPaymentFailEvent(String payload){
+    public void consumerProductValidationFailEvent(String payload){
         LOG.info("Receiving rollback event {} from product-validation-fail topic" , payload);
         Event event = jsonUtil.toEvent(payload);
         productValidationService.rollbackEvent(event);

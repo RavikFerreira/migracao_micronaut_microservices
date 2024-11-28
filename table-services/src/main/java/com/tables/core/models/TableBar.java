@@ -5,12 +5,9 @@ import io.micronaut.data.annotation.GeneratedValue;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.serde.annotation.Serdeable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
 
 @Serdeable
 @MappedEntity
@@ -25,7 +22,6 @@ public class TableBar implements Serializable {
     private Order order;
     private double account = 0.0;
 
-    @Enumerated(EnumType.STRING)
     private State state;
 
     public TableBar(String id, String idTable, Order order, double account, State state) {

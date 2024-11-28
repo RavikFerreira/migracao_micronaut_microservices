@@ -1,7 +1,7 @@
 package com.example.core.saga;
 
+import static com.example.core.enums.EEventSource.*;
 import static com.example.core.enums.EEventSource.ORCHESTRATOR;
-import static com.example.core.enums.EEventSource.PAYMENT_SERVICE;
 import static com.example.core.enums.EStatus.FAIL;
 import static com.example.core.enums.EStatus.ROLLBACK_PENDING;
 import static com.example.core.enums.EStatus.SUCCESS;
@@ -14,12 +14,12 @@ public final class Handler {
             {ORCHESTRATOR, SUCCESS, PRODUCT_VALIDATION_SUCCESS},
             {ORCHESTRATOR, FAIL, FINISH_FAIL},
 
-            {PRODUCT_VALIDATION_SUCCESS, SUCCESS, PAYMENT_SUCCESS},
-            {PRODUCT_VALIDATION_SUCCESS, FAIL, FINISH_FAIL},
-            {PRODUCT_VALIDATION_SUCCESS, ROLLBACK_PENDING, PRODUCT_VALIDATION_SUCCESS},
+            {PRODUCT_VALIDATION, SUCCESS, PAYMENT_SUCCESS},
+            {PRODUCT_VALIDATION, FAIL, FINISH_FAIL},
+            {PRODUCT_VALIDATION, ROLLBACK_PENDING, PRODUCT_VALIDATION_FAIL},
 
             {PAYMENT_SERVICE, ROLLBACK_PENDING, PAYMENT_FAIL},
-            {PAYMENT_SERVICE, FAIL, PRODUCT_VALIDATION_SUCCESS},
+            {PAYMENT_SERVICE, FAIL, PRODUCT_VALIDATION_FAIL},
             {PAYMENT_SERVICE, SUCCESS, FINISH_SUCCESS}
     };
 

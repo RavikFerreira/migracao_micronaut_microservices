@@ -32,9 +32,9 @@ public class KafkaConfig {
     @Value("${kafka.topic.orchestrator}")
     private String orchestratorTopic;
     @Value("${kafka.topic.product-validation-success}")
-    private String paymentSuccessTopic;
+    private String productValidationSuccessTopic;
     @Value("${kafka.topic.product-validation-fail}")
-    private String paymentFailTopic;
+    private String productValidationFailTopic;
 
     @Singleton
     @Bean
@@ -75,11 +75,11 @@ public class KafkaConfig {
         return buildTopic(orchestratorTopic);
     }
     @Bean
-    public NewTopic payment_successTopic(){
-        return buildTopic(paymentSuccessTopic);
+    public NewTopic productValidation_successTopic(){
+        return buildTopic(productValidationSuccessTopic);
     }
     @Bean
-    public NewTopic payment_failTopic(){
-        return buildTopic(paymentFailTopic);
+    public NewTopic productValidation_failTopic(){
+        return buildTopic(productValidationFailTopic);
     }
 }
