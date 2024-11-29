@@ -181,6 +181,7 @@
       <module name="orders-services" options="-parameters" />
       <module name="orquestrator-services" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=orquestrator-services" />
       <module name="payment-services" options="-parameters -Amicronaut.processing.group=com.payment -Amicronaut.processing.module=payment-services" />
+      <module name="product-validation-service" options="-parameters -Amicronaut.processing.group=com.productvalidationservice -Amicronaut.processing.module=product-validation-service" />
       <module name="table-services" options="-parameters -Amicronaut.processing.group=com.tables -Amicronaut.processing.module=table-services -Amicronaut.openapi.views.spec=rapidoc.enabled=true,openapi-explorer.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop" />
       <module name="table-services (1)" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=table-services" />
       <module name="table-services (1) (com.example)" options="-parameters -Amicronaut.processing.group=com.example -Amicronaut.processing.module=table-services" />
