@@ -20,9 +20,9 @@ import static com.example.core.enums.ETopic.NOTIFY;
 
 @Singleton
 @AllArgsConstructor
-public class OrquestratorService {
+public class OrchestratorService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OrquestratorService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OrchestratorService.class);
 
     @Inject
     private JsonUtil jsonUtil;
@@ -32,7 +32,7 @@ public class OrquestratorService {
     private SagaExecutionController sagaExecutionController;
 
     public void start(Event event){
-        event.setSource(EEventSource.ORQUESTRATOR);
+        event.setSource(EEventSource.ORCHESTRATOR);
         event.setStatus(EStatus.SUCCESS);
         ETopic topic = getTopic(event);
         LOG.info("STARTED!");
@@ -40,14 +40,14 @@ public class OrquestratorService {
         sendToProducerWithTopic(event,topic);
     }
     public void finishSuccess(Event event){
-        event.setSource(EEventSource.ORQUESTRATOR);
+        event.setSource(EEventSource.ORCHESTRATOR);
         event.setStatus(EStatus.SUCCESS);
         LOG.info("FINISHED SUCCESSFULLY FOR EVENT {}", event.getId());
         addHistory(event, "Finished successfully!");
         notifyFinished(event);
     }
     public void finishFail(Event event){
-        event.setSource(EEventSource.ORQUESTRATOR);
+        event.setSource(EEventSource.ORCHESTRATOR);
         event.setStatus(EStatus.FAIL);
         LOG.info("FINISHED WITH ERRORS FOR EVENT {}", event.getId());
         addHistory(event, "Finished with errors!");

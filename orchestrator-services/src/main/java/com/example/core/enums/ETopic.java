@@ -4,7 +4,7 @@ public enum ETopic {
 
     START("start"),
     NOTIFY("notify"),
-    ORQUESTRATOR("orquestrator"),
+    ORCHESTRATOR("orchestrator"),
     FINISH_SUCCESS("finish-success"),
     FINISH_FAIL("finish-fail"),
     PAYMENT_SUCCESS("payment-success"),

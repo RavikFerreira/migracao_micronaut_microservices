@@ -1,10 +1,16 @@
 package com.tables;
 
-import io.micronaut.core.annotation.Introspected;
 import io.micronaut.runtime.Micronaut;
-import jakarta.persistence.Entity;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 
-@Introspected(packages = "com.tables.core.models", includedAnnotations = Entity.class)
+@OpenAPIDefinition(
+        info = @Info(
+                title = "System Order and Payments",
+                version = "0.1",
+                description = "This is Documentation API"
+        )
+)
 public class Application {
 
     public static void main(String[] args) {
