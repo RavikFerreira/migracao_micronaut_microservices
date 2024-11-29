@@ -28,7 +28,7 @@ kafka:
   bootstrap:
     servers: localhost:9092
   topic:
-    orquestrator: orquestrator
+    orchestrator: orchestrator
     payment-success: payment-success
     payment-fail: payment-fail
   consumer:

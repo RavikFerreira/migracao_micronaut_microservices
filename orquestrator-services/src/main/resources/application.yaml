@@ -10,9 +10,9 @@ kafka:
     start: start
     finish-success: finish-success
     finish-fail: finish-fail
-    orquestrator: orquestrator
+    orchestrator: orchestrator
   consumer:
-    group-id: orquestrator-group
+    group-id: orchestrator-group
     auto-offset-reset: latest
 
 logger:

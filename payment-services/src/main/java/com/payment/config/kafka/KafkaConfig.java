@@ -29,8 +29,8 @@ public class KafkaConfig {
     private String groupId;
     @Value("${kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
-    @Value("${kafka.topic.orquestrator}")
-    private String orquestratorTopic;
+    @Value("${kafka.topic.orchestrator}")
+    private String orchestratorTopic;
     @Value("${kafka.topic.payment-success}")
     private String paymentSuccessTopic;
     @Value("${kafka.topic.payment-fail}")
@@ -71,8 +71,8 @@ public class KafkaConfig {
         return topic;
     }
     @Bean
-    public NewTopic orquestratorTopic(){
-        return buildTopic(orquestratorTopic);
+    public NewTopic orchestratorTopic(){
+        return buildTopic(orchestratorTopic);
     }
     @Bean
     public NewTopic payment_successTopic(){

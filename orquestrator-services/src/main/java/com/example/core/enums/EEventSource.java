@@ -2,6 +2,6 @@ package com.example.core.enums;
 
 public enum EEventSource {
 
-    ORQUESTRATOR,
+    ORCHESTRATOR,
     PAYMENT_SERVICE
 }

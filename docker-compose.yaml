@@ -6,7 +6,7 @@ services:
     container_name: mongodb
     restart: always
     networks:
-      - orquestrator-services
+      - orchestrator-services
     ports:
       - "27017:27017"
 
@@ -14,7 +14,7 @@ services:
     image: postgres:16
     container_name: payment-db
     networks:
-      - orquestrator-services
+      - orchestrator-services
     environment:
       POSTGRES_DB: payment-db
       POSTGRES_USER: postgres
@@ -28,7 +28,7 @@ services:
     volumes:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
-      - orquestrator-services
+      - orchestrator-services
     ports:
       - "9090:9090"
   grafana:
@@ -36,14 +36,14 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - orquestrator-services
+      - orchestrator-services
 
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
     networks:
-      - orquestrator-services
+      - orchestrator-services
     hostname: redis
     restart: unless-stopped
 
@@ -56,7 +56,7 @@ services:
     ports:
       - "8081:8080"
     networks:
-      - orquestrator-services
+      - orchestrator-services
     environment:
       CONFIG_FILEPATH: /tmp/config.yml
       CONSOLE_CONFIG_FILE: |
@@ -72,7 +72,7 @@ services:
     ports:
       - "9092:9092"
     networks:
-      - orquestrator-services
+      - orchestrator-services
     environment:
       KAFKA_LISTENERS: "INTERNAL://:29092,EXTERNAL://:9092"
       KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:29092,EXTERNAL://localhost:9092"
@@ -90,7 +90,7 @@ services:
       - payment-db
       - kafka
     networks:
-      - orquestrator-services
+      - orchestrator-services
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       DATASOURCES_DEFAULT_URL: jdbc:postgresql://payment-db:5432/payment-db
@@ -106,25 +106,25 @@ services:
       - mongodb
       - kafka
     networks:
-      - orquestrator-services
+      - orchestrator-services
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - MONGODB_URI=mongodb://mongodb:27017/table-db
     ports:
       - "8083:8083"
 
-  orquestrator-services:
-    build: './orquestrator-services'
-    container_name: orquestrator-services
+  orchestrator-services:
+    build: './orchestrator-services'
+    container_name: orchestrator-services
     depends_on:
       - kafka
     networks:
-      - orquestrator-services
+      - orchestrator-services
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     ports:
       - "4000:4000"
 
 networks:
-  orquestrator-services:
+  orchestrator-services:
     driver: bridge
