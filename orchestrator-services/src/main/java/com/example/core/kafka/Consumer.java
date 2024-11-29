@@ -1,12 +1,11 @@
 package com.example.core.kafka;
 
 import com.example.core.dto.Event;
-import com.example.core.services.OrquestratorService;
+import com.example.core.services.OrchestratorService;
 import com.example.core.utils.JsonUtil;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.Topic;
 import jakarta.inject.Inject;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +14,7 @@ public class Consumer {
 
     private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
     @Inject
-    private OrquestratorService orquestratorService;
+    private OrchestratorService orchestratorService;
     @Inject
     private JsonUtil jsonUtil;
 
@@ -23,24 +22,24 @@ public class Consumer {
     public void consumerStartEvent(String payload){
         LOG.info("Receiving event {} from start topic" , payload);
         Event event = jsonUtil.toEvent(payload);
-        orquestratorService.start(event);
+        orchestratorService.start(event);
     }
-    @Topic("${kafka.topic.orquestrator}")
-    public void consumerOrquestratorEvent(String payload){
-        LOG.info("Receiving event {} from orquestrator topic" , payload);
+    @Topic("${kafka.topic.orchestrator}")
+    public void consumerOrchestratorEvent(String payload){
+        LOG.info("Receiving event {} from orchestrator topic" , payload);
         Event event = jsonUtil.toEvent(payload);
-        orquestratorService.continueSaga(event);
+        orchestratorService.continueSaga(event);
     }
     @Topic("${kafka.topic.finish-success}")
     public void consumerFinishSuccessEvent(String payload){
         LOG.info("Receiving event {} from finish-success topic" , payload);
         Event event = jsonUtil.toEvent(payload);
-        orquestratorService.finishSuccess(event);
+        orchestratorService.finishSuccess(event);
     }
     @Topic("${kafka.topic.finish-fail}")
     public void consumerFinishFailEvent(String payload){
         LOG.info("Receiving ending notification event {} from finish-fail topic" , payload);
         Event event = jsonUtil.toEvent(payload);
-        orquestratorService.finishFail(event);
+        orchestratorService.finishFail(event);
     }
 }
