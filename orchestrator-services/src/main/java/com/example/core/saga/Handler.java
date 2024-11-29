@@ -1,24 +1,25 @@
 package com.example.core.saga;
 
+import static com.example.core.enums.EEventSource.*;
 import static com.example.core.enums.EEventSource.ORCHESTRATOR;
-import static com.example.core.enums.EEventSource.PAYMENT_SERVICE;
 import static com.example.core.enums.EStatus.FAIL;
 import static com.example.core.enums.EStatus.ROLLBACK_PENDING;
 import static com.example.core.enums.EStatus.SUCCESS;
-import static com.example.core.enums.ETopic.FINISH_FAIL;
-import static com.example.core.enums.ETopic.FINISH_SUCCESS;
-import static com.example.core.enums.ETopic.PAYMENT_FAIL;
-import static com.example.core.enums.ETopic.PAYMENT_SUCCESS;
+import static com.example.core.enums.ETopic.*;
 
 public final class Handler {
     private Handler(){}
 
     public static final Object[][] HANDLER = {
-            {ORCHESTRATOR, SUCCESS, PAYMENT_SUCCESS},
+            {ORCHESTRATOR, SUCCESS, PRODUCT_VALIDATION_SUCCESS},
             {ORCHESTRATOR, FAIL, FINISH_FAIL},
 
+            {PRODUCT_VALIDATION, SUCCESS, PAYMENT_SUCCESS},
+            {PRODUCT_VALIDATION, FAIL, FINISH_FAIL},
+            {PRODUCT_VALIDATION, ROLLBACK_PENDING, PRODUCT_VALIDATION_FAIL},
+
             {PAYMENT_SERVICE, ROLLBACK_PENDING, PAYMENT_FAIL},
-            {PAYMENT_SERVICE, FAIL, FINISH_FAIL},
+            {PAYMENT_SERVICE, FAIL, PRODUCT_VALIDATION_FAIL},
             {PAYMENT_SERVICE, SUCCESS, FINISH_SUCCESS}
     };
 
