@@ -19,16 +19,16 @@ public class Producer {
     @Inject
     private KafkaProducer<String, Object> kafkaProducer;
 
-    @Value("${kafka.topic.orquestrator}")
-    private String orquestratorTopic;
+    @Value("${kafka.topic.orchestrator}")
+    private String orchestratorTopic;
 
     public void sendEvent(String payload){
         try {
-            LOG.info("Sending event to topic {} with data {} ", orquestratorTopic, payload);
-            ProducerRecord<String, Object> record = new ProducerRecord<>(orquestratorTopic, payload);
+            LOG.info("Sending event to topic {} with data {} ", orchestratorTopic, payload);
+            ProducerRecord<String, Object> record = new ProducerRecord<>(orchestratorTopic, payload);
             kafkaProducer.send(record);
         } catch (Exception e) {
-            LOG.error("Error trying to send data to topic {} with data {}", orquestratorTopic, payload, e);
+            LOG.error("Error trying to send data to topic {} with data {}", orchestratorTopic, payload, e);
         }
     }
 }

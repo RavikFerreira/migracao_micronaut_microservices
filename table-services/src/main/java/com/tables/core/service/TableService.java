@@ -168,7 +168,7 @@ public class TableService {
         if(event.getSource() == null  && event.getStatus() ==  null){
             throw new PaymentNotRealizedException("Payment not realized!");
         }
-        if(!event.getSource().equals("ORQUESTRATOR")  && !event.getStatus().equals("SUCCESS")) {
+        if(!event.getSource().equals("ORCHESTRATOR")  && !event.getStatus().equals("SUCCESS")) {
             throw new PaymentNotRealizedException("Payment not realized!");
         }
         else {
