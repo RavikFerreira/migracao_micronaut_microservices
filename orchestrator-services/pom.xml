@@ -102,6 +102,7 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
     </dependency>
+
   </dependencies>
   <build>
     <plugins>

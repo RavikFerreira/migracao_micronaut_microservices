@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.info.Info;
         info = @Info(
                 title = "API Order and Payments",
                 version = "0.1",
-                description = "This is Documentation API"
+                description = "This is Documentation API da APIRestFul"
         )
 )
 public class Application {
