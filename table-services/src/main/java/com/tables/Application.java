@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "System Order and Payments",
+                title = "API Order and Payments",
                 version = "0.1",
                 description = "This is Documentation API"
         )

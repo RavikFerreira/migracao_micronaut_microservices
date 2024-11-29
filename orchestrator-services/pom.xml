@@ -134,7 +134,7 @@
             <path>
               <groupId>io.micronaut.data</groupId>
               <artifactId>micronaut-data-processor</artifactId>
-              <version>${micronaut.data.version}</version>
+              <version>4.9.4</version>
             </path>
             <path>
               <groupId>io.micronaut</groupId>
