@@ -1,0 +1,407 @@
+openapi: 3.0.1
+info:
+  title: System Order and Payments
+  description: This is Documentation API
+  version: "0.1"
+paths:
+  /event/filters/{tableId}:
+    get:
+      operationId: findByFilters
+      parameters:
+      - name: tableId
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+  /event/list:
+    get:
+      operationId: findAll
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+  /product/addProduct:
+    post:
+      operationId: addProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+  /product/delete/{idProduct}:
+    delete:
+      operationId: delete
+      parameters:
+      - name: idProduct
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+
+  /product/list:
+    get:
+      operationId: listProducts
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductResponse"
+  /product/searchProduct/{idProduct}:
+    get:
+      operationId: search
+      parameters:
+      - name: idProduct
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+  /product/updateOrderInProduct/{idProduct}:
+    patch:
+      operationId: updateOrderInProduct
+      parameters:
+      - name: idProduct
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+  /tables/addProductInOrder/{idTable}/{idProduct}:
+    patch:
+      operationId: addProductInOrder
+      parameters:
+      - name: idTable
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: idProduct
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableBarOrderProductsResponse"
+  /tables/create:
+    post:
+      operationId: addTables
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TableBar"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableBarResponse"
+  /tables/delete/{idTable}:
+    delete:
+      operationId: delete_1
+      parameters:
+      - name: idTable
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+
+  /tables/finallyOrder/{idTable}:
+    get:
+      operationId: finalizedTable
+      parameters:
+      - name: idTable
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableBarResponse"
+  /tables/list:
+    get:
+      operationId: listOrders
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TableBarOrderProductsResponse"
+  /tables/orders/{idTable}:
+    patch:
+      operationId: addOrder
+      parameters:
+      - name: idTable
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableBarOrderResponse"
+  /tables/payment/{idTable}:
+    get:
+      operationId: realizedPayment
+      parameters:
+      - name: idTable
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /tables/search/{idTable}:
+    get:
+      operationId: search_1
+      parameters:
+      - name: idTable
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableBarOrderProductsResponse"
+components:
+  schemas:
+    Event:
+      required:
+      - createdAt
+      - eventHistory
+      - id
+      - source
+      - status
+      - tableId
+      - transactionId
+      type: object
+      properties:
+        id:
+          type: string
+        transactionId:
+          type: string
+        tableId:
+          type: string
+        source:
+          type: string
+        status:
+          type: string
+        eventHistory:
+          type: array
+          items:
+            $ref: "#/components/schemas/History"
+        createdAt:
+          type: string
+          format: date-time
+    History:
+      required:
+      - createdAt
+      - message
+      - source
+      - status
+      type: object
+      properties:
+        source:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Order:
+      required:
+      - idOrder
+      - products
+      type: object
+      properties:
+        idOrder:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+    Product:
+      required:
+      - idProduct
+      - name
+      - price
+      - quantity
+      type: object
+      properties:
+        idProduct:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+          format: double
+        quantity:
+          type: integer
+          format: int32
+    ProductResponse:
+      required:
+        - id
+        - idProduct
+        - name
+        - price
+        - quantity
+      type: object
+      properties:
+        id:
+          type: number
+        idProduct:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+          format: double
+        quantity:
+          type: integer
+          format: int32
+    State:
+      type: string
+      enum:
+      - LIVRE
+      - OCUPADO
+    TableBar:
+      required:
+      - idTable
+      type: object
+      properties:
+        idTable:
+          type: string
+
+    TableBarResponse:
+      required:
+        - account
+        - id
+        - idTable
+        - state
+      type: object
+      properties:
+        id:
+          type: string
+        idTable:
+          type: string
+        account:
+          type: number
+          format: double
+        state:
+          $ref: "#/components/schemas/State"
+
+    TableBarOrderResponse:
+      required:
+        - account
+        - id
+        - idTable
+        - state
+        - order
+      type: object
+      properties:
+        id:
+          type: string
+        idTable:
+          type: string
+        order:
+          type: array
+          example: []
+        account:
+          type: number
+          format: double
+        state:
+          $ref: "#/components/schemas/State"
+
+    TableBarOrderProductsResponse:
+      required:
+        - account
+        - id
+        - idTable
+        - state
+        - order
+      type: object
+      properties:
+        id:
+          type: string
+        idTable:
+          type: string
+        order:
+          $ref: "#/components/schemas/Order"
+        account:
+          type: number
+          format: double
+        state:
+          $ref: "#/components/schemas/State"
+

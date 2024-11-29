@@ -1,4 +1,4 @@
-package com.payment.config.kafka;
+package com.productvalidationservice.config.kafka;
 
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
@@ -31,10 +31,10 @@ public class KafkaConfig {
     private String autoOffsetReset;
     @Value("${kafka.topic.orchestrator}")
     private String orchestratorTopic;
-    @Value("${kafka.topic.payment-success}")
-    private String paymentSuccessTopic;
-    @Value("${kafka.topic.payment-fail}")
-    private String paymentFailTopic;
+    @Value("${kafka.topic.product-validation-success}")
+    private String productValidationSuccessTopic;
+    @Value("${kafka.topic.product-validation-fail}")
+    private String productValidationFailTopic;
 
     @Singleton
     @Bean
@@ -75,11 +75,11 @@ public class KafkaConfig {
         return buildTopic(orchestratorTopic);
     }
     @Bean
-    public NewTopic paymentSuccessTopic(){
-        return buildTopic(paymentSuccessTopic);
+    public NewTopic productValidation_successTopic(){
+        return buildTopic(productValidationSuccessTopic);
     }
     @Bean
-    public NewTopic paymentFailTopic(){
-        return buildTopic(paymentFailTopic);
+    public NewTopic productValidation_failTopic(){
+        return buildTopic(productValidationFailTopic);
     }
 }

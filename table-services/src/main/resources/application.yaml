@@ -1,6 +1,15 @@
 micronaut:
   server:
     port: 8083
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+
   export:
     prometheus:
       enabled: true
@@ -37,12 +46,6 @@ redis:
   caches:
     products:
       expire-after-write: 60s
-
-flyway:
-  datasources:
-    default:
-      enabled: true
-
 
 kafka:
   bootstrap:
