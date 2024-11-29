@@ -111,9 +111,9 @@ services:
     ports:
       - "8082:8082"
 
-  product-validation-services:
-    build: './product-validation-services'
-    container_name: product-validation-services
+  product-validation-service:
+    build: './product-validation-service'
+    container_name: product-validation-service
     depends_on:
       - product-db
       - kafka
