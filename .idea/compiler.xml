@@ -117,7 +117,6 @@
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/serde/micronaut-serde-processor/2.11.0/micronaut-serde-processor-2.11.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/serde/micronaut-serde-api/2.11.0/micronaut-serde-api-2.11.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-context/4.6.0/micronaut-context-4.6.0.jar" />
-          <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-json-core/4.6.0/micronaut-json-core-4.6.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-http/4.6.6/micronaut-http-4.6.6.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-context-propagation/4.6.0/micronaut-context-propagation-4.6.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/data/micronaut-data-document-model/4.9.4/micronaut-data-document-model-4.9.4.jar" />
@@ -214,8 +213,8 @@
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-websocket/4.6.6/micronaut-websocket-4.6.6.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-http-client-core/4.6.6/micronaut-http-client-core-4.6.6.jar" />
           <entry name="$MAVEN_REPOSITORY$/io/micronaut/micronaut-discovery-core/4.6.6/micronaut-discovery-core-4.6.6.jar" />
-      </processorPath>
-      <module name="product-validation-service" />
+        </processorPath>
+        <module name="product-validation-service" />
   </profile>
 </annotationProcessing>
     <bytecodeTargetLevel>
