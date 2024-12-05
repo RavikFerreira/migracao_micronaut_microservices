@@ -20,7 +20,7 @@ jpa:
     properties:
       hibernate.show_sql: true
       hibernate.format_sql: true
-      hibernate.hbm2ddl.auto: update
+      hibernate.hbm2ddl.auto: create
     entity-scan:
       packages: com.payment.core.models
 
@@ -44,11 +44,6 @@ redis:
   caches:
     products:
       expire-after-write: 60s
-
-flyway:
-  datasources:
-    default:
-      enabled: true
 
 logger:
   levels:

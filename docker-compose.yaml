@@ -66,7 +66,7 @@ services:
     entrypoint: /bin/sh
     command: -c "echo \"$$CONSOLE_CONFIG_FILE\" > /tmp/config.yml; /app/console"
     ports:
-      - "8081:8080"
+      - "8000:8080"
     networks:
       - orchestrator-services
     environment:
