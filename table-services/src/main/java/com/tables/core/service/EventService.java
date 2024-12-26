@@ -3,6 +3,8 @@ package com.tables.core.service;
 import com.tables.config.exceptions.TablesResourceNotFoundException;
 import com.tables.core.dto.EventFilters;
 import com.tables.core.models.Event;
+import com.tables.core.models.EventProduct;
+import com.tables.core.repository.EventProductRepository;
 import com.tables.core.repository.EventRepository;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -20,6 +22,8 @@ public class EventService {
 
     @Inject
     private EventRepository eventRepository;
+    @Inject
+    private EventProductRepository eventProductRepository;
 
     public void notify(Event event){
         event.setTableId(event.getTableId());
@@ -57,6 +61,10 @@ public class EventService {
 
     public Event save(Event event){
         return eventRepository.save(event);
+    }
+
+    public EventProduct save(EventProduct event){
+        return eventProductRepository.save(event);
     }
 }
 

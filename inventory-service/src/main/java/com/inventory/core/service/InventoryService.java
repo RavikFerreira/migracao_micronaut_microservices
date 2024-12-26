@@ -64,7 +64,6 @@ public class InventoryService {
     private Inventory createInventory(Event event, Product product, Inventory inventory){
         Inventory inventory1 = new Inventory();
         inventory1.setOldQuantity(inventory.getAvailable());
-        inventory1.setOrderQuantity(product.getQuantity());
         inventory1.setNewQuantity(inventory.getAvailable() - product.getQuantity());
         inventory1.setTableId(event.getPayload().getIdTable());
         inventory1.setTransactionId(event.getTransactionId());
