@@ -13,4 +13,5 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     Optional<Inventory> findByIdProduct(String idProduct);
     Boolean existsByTableIdAndTransactionId(String tableId, String transactionId);
     List<Inventory> findByTableIdAndTransactionId(String orderId, String transactionId);
+    Boolean existsByIdProduct(String IdProduct);
 }
