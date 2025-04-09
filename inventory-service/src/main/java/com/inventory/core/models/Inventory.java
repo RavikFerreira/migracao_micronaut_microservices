@@ -12,7 +12,7 @@ public class Inventory {
     private Long id;
     @Column(nullable = false)
     private String idProduct;
-    private String tableId;
+    private String shoppingId;
     private String transactionId;
     @Column(nullable = false)
     private Integer available;
@@ -23,10 +23,10 @@ public class Inventory {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Inventory(Long id, String idProduct, String tableId, String transactionId, Integer available, Integer oldQuantity, Integer newQuantity, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Inventory(Long id, String idProduct, String shoppingId, String transactionId, Integer available, Integer oldQuantity, Integer newQuantity, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.idProduct = idProduct;
-        this.tableId = tableId;
+        this.shoppingId = shoppingId;
         this.transactionId = transactionId;
         this.available = available;
         this.oldQuantity = oldQuantity;
@@ -54,12 +54,12 @@ public class Inventory {
         this.idProduct = idProduct;
     }
 
-    public String getTableId() {
-        return tableId;
+    public String getShoppingId() {
+        return shoppingId;
     }
 
-    public void setTableId(String tableId) {
-        this.tableId = tableId;
+    public void setShoppingId(String shoppingId) {
+        this.shoppingId = shoppingId;
     }
 
     public String getTransactionId() {

@@ -22,13 +22,13 @@ services:
     ports:
       - "5432:5432"
 
-  product-db:
+  shopping-db:
     image: postgres:16
-    container_name: product-db
+    container_name: shopping-db
     networks:
       - orchestrator-services
     environment:
-      POSTGRES_DB: product-db
+      POSTGRES_DB: shopping-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 2503
     ports:
@@ -115,7 +115,7 @@ services:
     build: './product-validation-service'
     container_name: product-validation-service
     depends_on:
-      - product-db
+      - shopping-db
       - kafka
     networks:
       - orchestrator-services
@@ -127,9 +127,9 @@ services:
     ports:
       - "8085:8085"
 
-  table-services:
-    build: './table-services'
-    container_name: table-services
+  shopping-services:
+    build: './shopping-services'
+    container_name: shopping-services
     depends_on:
       - mongodb
       - kafka
@@ -137,7 +137,7 @@ services:
       - orchestrator-services
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - MONGODB_URI=mongodb://mongodb:27017/table-db
+      - MONGODB_URI=mongodb://mongodb:27017/shopping-db
     ports:
       - "8083:8083"
 

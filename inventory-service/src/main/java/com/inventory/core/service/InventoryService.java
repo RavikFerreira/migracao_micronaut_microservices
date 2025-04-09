@@ -46,7 +46,7 @@ public class InventoryService {
     }
 
     private void checkCurrentValidation(Event event){
-        if(inventoryRepository.existsByTableIdAndTransactionId(event.getPayload().getIdTable(), event.getTransactionId())){
+        if(inventoryRepository.existsByShoppingIdAndTransactionId(event.getPayload().getIdShopping(), event.getTransactionId())){
             throw new RuntimeException("There's another transactionId for this validation.");
         }
     }
@@ -65,7 +65,7 @@ public class InventoryService {
         Inventory inventory1 = new Inventory();
         inventory1.setOldQuantity(inventory.getAvailable());
         inventory1.setNewQuantity(inventory.getAvailable() - product.getQuantity());
-        inventory1.setTableId(event.getPayload().getIdTable());
+        inventory1.setShoppingId(event.getPayload().getIdShopping());
         inventory1.setTransactionId(event.getTransactionId());
         return inventoryRepository.save(inventory1);
     }
@@ -126,13 +126,13 @@ public class InventoryService {
 
     private void returnInventoryToPreviousValues(Event event){
         inventoryRepository
-                .findByTableIdAndTransactionId(event.getPayload().getIdTable(), event.getTransactionId())
+                .findByShoppingIdAndTransactionId(event.getPayload().getIdShopping(), event.getTransactionId())
                 .forEach(inventory -> {
                     Inventory inventory1 = new Inventory();
                     inventory.setAvailable(inventory.getOldQuantity());
                     inventoryRepository.save(inventory1);
                     LOG.info("Restored inventory for order {} from {} to {}",
-                            event.getPayload().getIdTable(), inventory.getNewQuantity(), inventory.getAvailable());
+                            event.getPayload().getIdShopping(), inventory.getNewQuantity(), inventory.getAvailable());
                 });
     }
 

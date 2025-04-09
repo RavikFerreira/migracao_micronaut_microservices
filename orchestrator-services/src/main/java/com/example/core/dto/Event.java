@@ -17,8 +17,8 @@ public class Event {
 
     private String id;
     private String transactionId;
-    private String tableId;
-    private TableBar payload;
+    private String shoppingId;
+    private Shopping payload;
     @Enumerated(EnumType.STRING)
     private EEventSource source;
     @Enumerated(EnumType.STRING)
@@ -26,10 +26,10 @@ public class Event {
     private List<History> eventHistory;
     private LocalDateTime createdAt;
 
-    public Event(String id, String transactionId, String tableId, TableBar payload, EEventSource source, EStatus status, List<History> eventHistory, LocalDateTime createdAt) {
+    public Event(String id, String transactionId, String shoppingId, Shopping payload, EEventSource source, EStatus status, List<History> eventHistory, LocalDateTime createdAt) {
         this.id = id;
         this.transactionId = transactionId;
-        this.tableId = tableId;
+        this.shoppingId = shoppingId;
         this.payload = payload;
         this.source = source;
         this.status = status;
@@ -56,19 +56,19 @@ public class Event {
         this.transactionId = transactionId;
     }
 
-    public String getTableId() {
-        return tableId;
+    public String getShoppingId() {
+        return shoppingId;
     }
 
-    public void setTableId(String tableId) {
-        this.tableId = tableId;
+    public void setShoppingId(String shoppingId) {
+        this.shoppingId = shoppingId;
     }
 
-    public TableBar getPayload() {
+    public Shopping getPayload() {
         return payload;
     }
 
-    public void setPayload(TableBar payload) {
+    public void setPayload(Shopping payload) {
         this.payload = payload;
     }
 

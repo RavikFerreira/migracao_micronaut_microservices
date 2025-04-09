@@ -21,7 +21,7 @@ import static java.lang.String.format;
 @AllArgsConstructor
 public class SagaExecutionController {
     private static final Logger LOG = LoggerFactory.getLogger(SagaExecutionController.class);
-    private static final String LOG_ID = "TABLE ID: %s | TRANSACTION ID %s | EVENT ID %s";
+    private static final String LOG_ID = "SHOPPING ID: %s | TRANSACTION ID %s | EVENT ID %s";
 
     public ETopic getNextTopic(Event event) {
         if (event.getSource() == null || event.getStatus() == null) {

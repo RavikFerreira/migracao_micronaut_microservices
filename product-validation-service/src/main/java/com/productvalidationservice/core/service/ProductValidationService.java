@@ -51,7 +51,7 @@ public class ProductValidationService {
     private void checkCurrentValidation(Event event) {
         validateProductsInformed(event);
         if (validationRepository.existsByOrderIdAndTransactionId(
-                event.getTableId(), event.getTransactionId())) {
+                event.getShoppingId(), event.getTransactionId())) {
             throw new RuntimeException("There's another transactionId for this validation.");
         }
         //            validateExistingProduct(product.getIdProduct());
@@ -110,7 +110,7 @@ public class ProductValidationService {
 
     private void changeValidationToFail(Event event) {
         validationRepository
-                .findByOrderIdAndTransactionId(event.getTableId(), event.getTransactionId())
+                .findByOrderIdAndTransactionId(event.getShoppingId(), event.getTransactionId())
                 .ifPresentOrElse(validation -> {
                             validation.setSuccess(false);
                             validationRepository.save(validation);

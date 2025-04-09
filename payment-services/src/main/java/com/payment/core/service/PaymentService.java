@@ -40,7 +40,7 @@ public class PaymentService {
         try{
             checkCurrentValidation(event);
             createPendingPayment(event);
-            Payment payment = findByTableIdAndTransactionId(event);
+            Payment payment = findByShoppingIdAndTransactionId(event);
             validateAmount(payment.getTotalAmount());
             changePaymentToSuccess(payment);
             handleSuccess(event);
@@ -52,7 +52,7 @@ public class PaymentService {
     }
 
     public void checkCurrentValidation(Event event){
-        if(paymentRepository.existsByTableIdAndTransactionId(event.getPayload().getIdTable(), event.getTransactionId())){
+        if(paymentRepository.existsByShoppingIdAndTransactionId(event.getPayload().getIdShopping(), event.getTransactionId())){
             throw new RuntimeException("There's another transactionId for this validation.");
         }
     }
@@ -60,7 +60,7 @@ public class PaymentService {
     public void createPendingPayment(Event event){
         double totalAmount = calculateAmount(event);
         Payment payment = new Payment();
-        payment.setTableId(event.getPayload().getId());
+        payment.setShoppingId(event.getPayload().getId());
         payment.setTransactionId(event.getTransactionId());
         payment.setTotalAmount(totalAmount);
         save(payment);
@@ -122,15 +122,15 @@ public class PaymentService {
 
     }
     private void changePaymentStatusToRefund(Event event){
-        Payment payment = findByTableIdAndTransactionId(event);
+        Payment payment = findByShoppingIdAndTransactionId(event);
         payment.setStatus(EPaymentStatus.REFUND);
         setEventAmountItems(event, payment);
         save(payment);
     }
 
-    private Payment findByTableIdAndTransactionId(Event event){
-        return paymentRepository.findByTableIdAndTransactionId(event.getPayload().getId(), event.getTransactionId())
-                .orElseThrow(() -> new RuntimeException("Payment not found by TableId and TransactionId. "));
+    private Payment findByShoppingIdAndTransactionId(Event event){
+        return paymentRepository.findByShoppingIdAndTransactionId(event.getPayload().getId(), event.getTransactionId())
+                .orElseThrow(() -> new RuntimeException("Payment not found by ShoppingId and TransactionId. "));
     }
 
     public void save(Payment payment){

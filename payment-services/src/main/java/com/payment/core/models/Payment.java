@@ -28,7 +28,7 @@ public class Payment implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String tableId;
+    private String shoppingId;
 
     @Column(nullable = false)
     private String transactionId;
@@ -44,9 +44,9 @@ public class Payment implements Serializable {
 
     public Payment() {}
 
-    public Payment(Long id, String tableId, String transactionId, LocalDateTime createdAt, LocalDateTime updatedAt, double totalAmount, EPaymentStatus status) {
+    public Payment(Long id, String shoppingId, String transactionId, LocalDateTime createdAt, LocalDateTime updatedAt, double totalAmount, EPaymentStatus status) {
         this.id = id;
-        this.tableId = tableId;
+        this.shoppingId = shoppingId;
         this.transactionId = transactionId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -62,12 +62,12 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public String getTableId() {
-        return tableId;
+    public String getShoppingId() {
+        return shoppingId;
     }
 
-    public void setTableId(String tableId) {
-        this.tableId = tableId;
+    public void setShoppingId(String shoppingId) {
+        this.shoppingId = shoppingId;
     }
 
     public String getTransactionId() {
