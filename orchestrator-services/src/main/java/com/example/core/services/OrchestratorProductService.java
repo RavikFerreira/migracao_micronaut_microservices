@@ -1,9 +1,9 @@
 package com.example.core.services;
 
 import com.example.core.dto.EventProduct;
-import com.example.core.dto.HistoryProduct;
-import com.example.core.enums.EEventProductSource;
-import com.example.core.enums.EProductStatus;
+import com.example.core.dto.History;
+import com.example.core.enums.EEventSource;
+import com.example.core.enums.EStatus;
 import com.example.core.enums.ETopic;
 import com.example.core.kafka.Producer;
 import com.example.core.saga.SagaExecutionProductController;
@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
-import static com.example.core.enums.EEventProductSource.ORCHESTRATOR;
 import static com.example.core.enums.ETopic.NOTIFY;
 
 @Singleton
@@ -33,23 +32,23 @@ public class OrchestratorProductService {
     private SagaExecutionProductController sagaExecutionProductController;
 
     public void start(EventProduct event){
-        event.setProductSource(ORCHESTRATOR);
-        event.setProductStatus(EProductStatus.SUCCESS);
+        event.setSource(EEventSource.ORCHESTRATOR_PRODUCT);
+        event.setStatus(EStatus.SUCCESS);
         ETopic topic = getTopic(event);
         LOG.info("STARTED!");
         addHistory(event, "Started!");
         sendToProducerWithTopic(event,topic);
     }
     public void finishSuccess(EventProduct event){
-        event.setProductSource(ORCHESTRATOR);
-        event.setProductStatus(EProductStatus.SUCCESS);
+        event.setSource(EEventSource.ORCHESTRATOR_PRODUCT);
+        event.setStatus(EStatus.SUCCESS);
         LOG.info("FINISHED SUCCESSFULLY FOR EVENT {}", event.getId());
         addHistory(event, "Finished successfully!");
         notifyFinished(event);
     }
     public void finishFail(EventProduct event){
-        event.setProductSource(ORCHESTRATOR);
-        event.setProductStatus(EProductStatus.FAIL);
+        event.setSource(EEventSource.ORCHESTRATOR_PRODUCT);
+        event.setStatus(EStatus.FAIL);
         LOG.info("FINISHED WITH ERRORS FOR EVENT {}", event.getId());
         addHistory(event, "Finished with errors!");
         notifyFinished(event);
@@ -65,9 +64,9 @@ public class OrchestratorProductService {
     }
 
     private void addHistory(EventProduct event, String message){
-        HistoryProduct history = new HistoryProduct();
-        history.setSource(event.getProductSource());
-        history.setStatus(event.getProductStatus());
+        History history = new History();
+        history.setSource(event.getSource());
+        history.setStatus(event.getStatus());
         history.setMessage(message);
         history.setCreatedAt(LocalDateTime.now());
         event.addToHistory(history);

@@ -174,10 +174,10 @@
               </exclusions>
             </path>
           </annotationProcessorPaths>
-          <compilerArgs>
-            <arg>-Amicronaut.processing.group=com.inventory</arg>
-            <arg>-Amicronaut.processing.module=inventory-service</arg>
+          <compilerArgs>--enable-preview
           </compilerArgs>
+            <source>21</source>
+            <target>21</target>
         </configuration>
       </plugin>
     </plugins>

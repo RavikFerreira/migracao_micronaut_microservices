@@ -36,6 +36,8 @@ public class KafkaConfig {
 
     @Value("${kafka.topic.start}")
     private String startTopic;
+    @Value("${kafka.topic.start-product}")
+    private String startProductTopic;
     @Value("${kafka.topic.notify}")
     private String notifyTopic;
 
@@ -75,6 +77,10 @@ public class KafkaConfig {
     @Bean
     public NewTopic startTopic(){
         return buildTopic(startTopic);
+    }
+    @Bean
+    public NewTopic startProductTopic(){
+        return buildTopic(startProductTopic);
     }
 
     @Bean

@@ -1,8 +1,9 @@
 package com.inventory.core.dto;
 
-import com.inventory.core.enums.EProductStatus;
+import com.inventory.core.enums.EStatus;
 import io.micronaut.serde.annotation.Serdeable;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +15,17 @@ public class EventProduct {
     private String id;
     private Product payload;
     private String source;
-    private EProductStatus status;
-    private List<HistoryProduct> eventHistory;
+    private EStatus status;
+    private List<History> eventHistory;
+    private LocalDateTime createdAt;
 
-
-    public EventProduct(String id, Product payload, String source, EProductStatus status, List<HistoryProduct> eventHistory) {
+    public EventProduct(String id, Product payload, String source, EStatus status, List<History> eventHistory, LocalDateTime createdAt) {
         this.id = id;
         this.payload = payload;
         this.source = source;
         this.status = status;
         this.eventHistory = eventHistory;
+        this.createdAt = createdAt;
     }
 
     public EventProduct() {
@@ -53,26 +55,34 @@ public class EventProduct {
         this.source = source;
     }
 
-    public EProductStatus getStatus() {
+    public EStatus getStatus() {
         return status;
     }
 
-    public void setStatus(EProductStatus status) {
+    public void setStatus(EStatus status) {
         this.status = status;
     }
 
-    public List<HistoryProduct> getEventHistory() {
+    public List<History> getEventHistory() {
         return eventHistory;
     }
 
-    public void setEventHistory(List<HistoryProduct> eventHistory) {
+    public void setEventHistory(List<History> eventHistory) {
         this.eventHistory = eventHistory;
     }
-    public void addToHistory(HistoryProduct history){
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void addToHistory(History history){
         if(isEmpty(eventHistory)){
             eventHistory = new ArrayList<>();
         }
         eventHistory.add(history);
     }
-
 }

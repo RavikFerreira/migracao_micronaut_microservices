@@ -29,7 +29,9 @@ kafka:
     servers: localhost:9092
   topic:
     orchestrator: orchestrator
+    orchestrator-product: orchestrator-product
     inventory-success: inventory-success
+    inventory-product-success: inventory-product-success
     inventory-fail: inventory-fail
   consumer:
     group-id: inventory-group

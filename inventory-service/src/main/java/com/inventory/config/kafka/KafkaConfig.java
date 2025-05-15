@@ -31,8 +31,12 @@ public class KafkaConfig {
     private String autoOffsetReset;
     @Value("${kafka.topic.orchestrator}")
     private String orchestratorTopic;
+    @Value("${kafka.topic.orchestrator-product}")
+    private String orchestratorProductTopic;
     @Value("${kafka.topic.inventory-success}")
     private String inventorySuccessTopic;
+    @Value("${kafka.topic.inventory-product-success}")
+    private String inventoryProductSuccessTopic;
     @Value("${kafka.topic.inventory-fail}")
     private String inventoryFailTopic;
 
@@ -75,8 +79,16 @@ public class KafkaConfig {
         return buildTopic(orchestratorTopic);
     }
     @Bean
+    public NewTopic orchestratorProductTopic(){
+        return buildTopic(orchestratorProductTopic);
+    }
+    @Bean
     public NewTopic inventorySuccessTopic(){
         return buildTopic(inventorySuccessTopic);
+    }
+    @Bean
+    public NewTopic inventoryProductSuccessTopic(){
+        return buildTopic(inventoryProductSuccessTopic);
     }
     @Bean
     public NewTopic inventoryFailTopic(){

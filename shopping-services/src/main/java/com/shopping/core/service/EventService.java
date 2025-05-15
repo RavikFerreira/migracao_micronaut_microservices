@@ -59,12 +59,12 @@ public class EventService {
         }
     }
 
-    public Event save(Event event){
-        return eventRepository.save(event);
+    public void save(Event event){
+        eventRepository.save(event);
     }
 
-    public EventProduct save(EventProduct event){
-        return eventProductRepository.save(event);
+    public void saveProduct(EventProduct event){
+        eventProductRepository.save(event);
     }
 }
 

@@ -5,7 +5,11 @@ import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.serde.annotation.Serdeable;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static io.micronaut.core.util.CollectionUtils.isEmpty;
 
 @Serdeable
 @MappedEntity
@@ -18,14 +22,15 @@ public class EventProduct {
     private String source;
     private String status;
     private List<History> eventHistory;
+    private LocalDateTime createdAt;
 
-
-    public EventProduct(String id, Product payload, String source, String status, List<History> eventHistory) {
+    public EventProduct(String id, Product payload, String source, String status, List<History> eventHistory, LocalDateTime createdAt) {
         this.id = id;
         this.payload = payload;
         this.source = source;
         this.status = status;
         this.eventHistory = eventHistory;
+        this.createdAt = createdAt;
     }
 
     public EventProduct() {
@@ -71,4 +76,18 @@ public class EventProduct {
         this.eventHistory = eventHistory;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void addToHistory(History history){
+        if(isEmpty(eventHistory)){
+            eventHistory = new ArrayList<>();
+        }
+        eventHistory.add(history);
+    }
 }

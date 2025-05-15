@@ -1,6 +1,8 @@
 package com.example.core.kafka;
 
 import com.example.core.dto.Event;
+import com.example.core.dto.EventProduct;
+import com.example.core.services.OrchestratorProductService;
 import com.example.core.services.OrchestratorService;
 import com.example.core.utils.JsonUtil;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;

@@ -1,10 +1,9 @@
 package com.shopping.core.service;
 
-import com.shopping.config.exceptions.ItIsNotPossibleToAddAProductToTheMenuWithTheSameId;
 import com.shopping.config.exceptions.ProductResourceNotFoundException;
 import com.shopping.core.kafka.Producer;
-import com.shopping.core.models.EventProduct;
-import com.shopping.core.models.Product;
+import com.shopping.core.kafka.ProducerProduct;
+import com.shopping.core.models.*;
 import com.shopping.core.repository.ProductRepository;
 import com.shopping.core.repository.ShoppingRepository;
 import com.shopping.core.utils.JsonUtil;
@@ -13,6 +12,7 @@ import jakarta.inject.Singleton;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Singleton
 public class ProductService {
@@ -22,7 +22,7 @@ public class ProductService {
     @Inject
     private ShoppingRepository shoppingRepository;
     @Inject
-    private Producer producer;
+    private ProducerProduct producerProduct;
     @Inject
     private JsonUtil jsonUtil;
     @Inject
@@ -39,6 +39,7 @@ public class ProductService {
             Product existingProduct = orders.get();
             existingProduct.setQuantity(existingProduct.getQuantity() + product.getQuantity());
             productRepository.update(existingProduct);
+            producerProduct.sendEvent(jsonUtil.toJson(product));
             return existingProduct;
         }
 
@@ -46,17 +47,19 @@ public class ProductService {
             product.setIdProduct(product.getIdProduct());
             product.setQuantity(product.getQuantity());
             productRepository.save(product);
-            producer.sendEvent(jsonUtil.toJson(createProductPayload(product)));
+            producerProduct.sendEvent(jsonUtil.toJson(createPayload(product)));
         }
+
         return product;
     }
 
-    private EventProduct createProductPayload(Product product){
+    private EventProduct createPayload(Product product) {
         EventProduct event = new EventProduct();
         event.setId(product.getId());
         event.setPayload(product);
-        eventService.save(event);
+        eventService.saveProduct(event);
         return event;
+
     }
     public Product searchProduct(String idProduct){
         Product product = productRepository.findByIdProduct(idProduct).orElseThrow(() -> new ProductResourceNotFoundException(idProduct));

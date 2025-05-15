@@ -1,9 +1,10 @@
 package com.example.core.saga;
 
 import com.example.core.dto.EventProduct;
-import com.example.core.enums.EEventProductSource;
+import com.example.core.enums.EEventSource;
 import com.example.core.enums.ETopic;
 import io.micronaut.http.annotation.Controller;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,12 +15,13 @@ import static java.lang.String.format;
 
 
 @Controller
+@AllArgsConstructor
 public class SagaExecutionProductController {
     private static final Logger LOG = LoggerFactory.getLogger(SagaExecutionProductController.class);
-    private static final String LOG_ID = "PRODUCT ID: %s | EVENT ID %s";
+    private static final String LOG_ID = "ID: %s | EVENT ID %s";
 
     public ETopic getNextTopic(EventProduct event) {
-        if (event.getProductSource() == null || event.getProductStatus() == null) {
+        if (event.getSource() == null || event.getStatus() == null) {
             throw new RuntimeException("Source and status must be informed.");
         }
         var topic = findTopicBySourceAndStatus(event);
@@ -34,15 +36,15 @@ public class SagaExecutionProductController {
                 .orElseThrow(() -> new RuntimeException("Topic not found!"));
     }
 
-    private boolean  isEventSourceAndStatusValid(EventProduct event, Object[] row){
+    private boolean isEventSourceAndStatusValid(EventProduct event, Object[] row){
         var source = row[EVENT_SOURCE_INDEX];
         var status = row[STATUS_INDEX];
-        return source.equals(event.getProductSource()) && status.equals(event.getProductStatus());
+        return source.equals(event.getSource()) && status.equals(event.getStatus());
     }
     private void logCurrentSaga(EventProduct event, ETopic topic){
         var sagaId = createSagaId(event);
-        EEventProductSource source = event.getProductSource();
-        switch (event.getProductStatus()){
+        EEventSource source = event.getSource();
+        switch (event.getStatus()){
             case SUCCESS -> LOG.info("### CURRENT SAGA: {} | SUCCESS | NEXT TOPIC {} | {}"
                     , source, topic, sagaId);
             case ROLLBACK_PENDING -> LOG.info("### CURRENT SAGA: {} | SENDING TO ROLLBACK CURRENT SERVICE | NEXT TOPIC {} | {}"

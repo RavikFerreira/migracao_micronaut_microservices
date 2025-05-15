@@ -1,6 +1,7 @@
 package com.shopping.core.utils;
 
 import com.shopping.core.models.Event;
+import com.shopping.core.models.EventProduct;
 import io.micronaut.serde.ObjectMapper;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -24,6 +25,13 @@ public class JsonUtil {
     public Event toEvent(String json){
         try{
             return objectMapper.readValue(json, Event.class);
+        } catch (Exception e){
+            return null;
+        }
+    }
+    public EventProduct toProductEvent(String json){
+        try{
+            return objectMapper.readValue(json, EventProduct.class);
         } catch (Exception e){
             return null;
         }

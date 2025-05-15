@@ -1,6 +1,5 @@
 package com.inventory.core.dto;
 
-import com.inventory.core.dto.enums.State;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.io.Serial;
@@ -16,14 +15,12 @@ public class Shopping implements Serializable {
     private String idShopping;
     private Order order;
     private double account = 0.0;
-    private State state;
 
-    public Shopping(String id, String idShopping, Order order, double account, State state) {
+    public Shopping(String id, String idShopping, Order order, double account) {
         this.id = id;
         this.idShopping = idShopping;
         this.order = order;
         this.account = account;
-        this.state = state;
 
     }
     public Shopping(){}
@@ -60,12 +57,5 @@ public class Shopping implements Serializable {
         this.account = account;
     }
 
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
 }
 

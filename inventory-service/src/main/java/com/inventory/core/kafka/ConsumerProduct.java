@@ -1,8 +1,9 @@
 package com.inventory.core.kafka;
 
+import com.inventory.core.dto.Event;
 import com.inventory.core.dto.EventProduct;
-import com.inventory.core.service.InventoryProductService;
-import com.inventory.core.utils.JsonUtilProduct;
+import com.inventory.core.service.InventoryService;
+import com.inventory.core.utils.JsonUtil;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
 import io.micronaut.configuration.kafka.annotation.Topic;
 import jakarta.inject.Inject;
@@ -18,20 +19,14 @@ public class ConsumerProduct {
     private static final Logger LOG = LoggerFactory.getLogger(ConsumerProduct.class);
 
     @Inject
-    private InventoryProductService inventoryProductService;
+    private InventoryService inventoryService;
     @Inject
-    private JsonUtilProduct jsonUtilProduct;
+    private JsonUtil jsonUtil;
 
-    @Topic("${kafka.topic.inventory-success}")
+    @Topic("${kafka.topic.inventory-product-success}")
     public void consumerInventorySuccessEvent(String payload){
         LOG.info("Receiving success event {} from inventory-success topic" , payload);
-        EventProduct event = jsonUtilProduct.toEvent(payload);
-        inventoryProductService.updateInventory(event);
-    }
-    @Topic("${kafka.topic.inventory-fail}")
-    public void consumerInventoryFailEvent(String payload){
-        LOG.info("Receiving rollback event {} from inventory-fail topic" , payload);
-        EventProduct event = jsonUtilProduct.toEvent(payload);
-        inventoryProductService.rollbackInventory(event);
+        EventProduct event = jsonUtil.toProductEvent(payload);
+        inventoryService.createInventory(event);
     }
 }

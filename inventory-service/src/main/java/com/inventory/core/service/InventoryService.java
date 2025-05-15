@@ -1,10 +1,8 @@
 package com.inventory.core.service;
 
-import com.inventory.core.dto.Event;
-import com.inventory.core.dto.History;
-import com.inventory.core.dto.Order;
-import com.inventory.core.dto.Product;
+import com.inventory.core.dto.*;
 import com.inventory.core.kafka.Producer;
+import com.inventory.core.kafka.ProducerProduct;
 import com.inventory.core.models.Inventory;
 import com.inventory.core.repository.InventoryRepository;
 import com.inventory.core.utils.JsonUtil;
@@ -30,12 +28,13 @@ public class InventoryService {
     @Inject
     private Producer producer;
     @Inject
+    private ProducerProduct producerProduct;
+    @Inject
     private InventoryRepository inventoryRepository;
 
     public void updateInventory(Event event){
         try{
             checkCurrentValidation(event);
-            createInventory(event);
             updateInventory(event.getPayload().getOrder());
             handleSuccess(event);
         }catch (Exception ex) {
@@ -51,22 +50,17 @@ public class InventoryService {
         }
     }
 
-    private void createInventory(Event event){
-        event
-                .getPayload()
-                .getOrder()
-                .getProducts().forEach(product -> {
-                    Inventory inventory = findInventoryByIdProduct(product.getIdProduct());
-                    Inventory orderInventory = createInventory(event, product, inventory);
-                    inventoryRepository.update(orderInventory);
-        } );
+    public void createInventory(EventProduct event){
+        Inventory inventory = findInventoryByIdProduct(event.getPayload().getIdProduct());
+        Inventory orderInventory = createInventory(event, inventory);
+        inventoryRepository.update(orderInventory);
+        producerProduct.sendEvent(jsonUtil.toJson(event));
+
     }
-    private Inventory createInventory(Event event, Product product, Inventory inventory){
+    private Inventory createInventory(EventProduct event, Inventory inventory){
         Inventory inventory1 = new Inventory();
         inventory1.setOldQuantity(inventory.getAvailable());
-        inventory1.setNewQuantity(inventory.getAvailable() - product.getQuantity());
-        inventory1.setShoppingId(event.getPayload().getIdShopping());
-        inventory1.setTransactionId(event.getTransactionId());
+        inventory1.setNewQuantity(inventory.getAvailable() - event.getPayload().getQuantity());
         return inventoryRepository.save(inventory1);
     }
 

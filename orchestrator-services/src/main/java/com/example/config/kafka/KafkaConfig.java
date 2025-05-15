@@ -70,8 +70,16 @@ public class KafkaConfig {
         return buildTopic(ETopic.START.getTopic());
     }
     @Bean
+    public NewTopic startProductTopic(){
+        return buildTopic(ETopic.START_PRODUCT.getTopic());
+    }
+    @Bean
     public NewTopic orchestratorTopic(){
         return buildTopic(ETopic.ORCHESTRATOR.getTopic());
+    }
+    @Bean
+    public NewTopic orchestratorProductTopic(){
+        return buildTopic(ETopic.ORCHESTRATOR_PRODUCT.getTopic());
     }
     @Bean
     public NewTopic notifyTopic(){
