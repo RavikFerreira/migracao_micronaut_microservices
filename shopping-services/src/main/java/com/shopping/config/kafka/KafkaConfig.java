@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Factory
 @RequiredArgsConstructor
-public class KafkaConfig {
+public class  KafkaConfig {
 
     private static final int PARTITIONS_COUNT = 1;
     private static final int REPLICA_COUNT = 1;
@@ -33,11 +33,8 @@ public class KafkaConfig {
     private String groupId;
     @Value("${kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
-
     @Value("${kafka.topic.start}")
     private String startTopic;
-    @Value("${kafka.topic.start-product}")
-    private String startProductTopic;
     @Value("${kafka.topic.notify}")
     private String notifyTopic;
 
@@ -77,10 +74,6 @@ public class KafkaConfig {
     @Bean
     public NewTopic startTopic(){
         return buildTopic(startTopic);
-    }
-    @Bean
-    public NewTopic startProductTopic(){
-        return buildTopic(startProductTopic);
     }
 
     @Bean

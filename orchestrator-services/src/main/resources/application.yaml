@@ -8,11 +8,10 @@ kafka:
     servers: localhost:9092
   topic:
     start: start
-    start-product: start-product
     finish-success: finish-success
     finish-fail: finish-fail
     orchestrator: orchestrator
-    orchestrator-product: orchestrator-product
+
   consumer:
     group-id: orchestrator-group
     auto-offset-reset: latest

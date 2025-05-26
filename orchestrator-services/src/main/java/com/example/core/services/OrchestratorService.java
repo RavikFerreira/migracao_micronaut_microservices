@@ -1,7 +1,6 @@
 package com.example.core.services;
 
 import com.example.core.dto.Event;
-import com.example.core.dto.EventProduct;
 import com.example.core.dto.History;
 import com.example.core.enums.EEventSource;
 import com.example.core.enums.EStatus;

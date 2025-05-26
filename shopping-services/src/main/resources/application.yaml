@@ -53,7 +53,6 @@ kafka:
 
   topic:
     start: start
-    start-product: start-product
     notify: notify
 
   consumer:

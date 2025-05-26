@@ -16,10 +16,7 @@ import jakarta.inject.Singleton;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Singleton
 public class ShoppingService {
@@ -31,13 +28,13 @@ public class ShoppingService {
     @Inject
     private EventRepository eventRepository;
     @Inject
-    private ProductRepository productRepository;
-    @Inject
     private Producer producer;
     @Inject
     private JsonUtil jsonUtil;
     @Inject
     private EventService eventService;
+    @Inject
+    private ProductRepository productRepository;
 
     public List<Shopping> list(){
         List<Shopping> shoppingList = shoppingRepository.findAll();
@@ -81,6 +78,9 @@ public class ShoppingService {
     public Shopping addProductInOrder(String idShopping, String idProduct) {
         Shopping shoppingList = shoppingRepository.findByIdShopping(idShopping).orElseThrow(() -> new ShoppingResourceNotFoundException("Shopping resource not found!"));
         Product productExists = productRepository.findByIdProduct(idProduct).orElseThrow(() -> new ProductResourceNotFoundException("Product resource not found!"));
+        if(!Objects.equals(productExists.getIdProduct(), idProduct)){
+            throw new ProductResourceNotFoundException("Product resource not found!");
+        }
 
         boolean orderNotExists = false;
         List<Product> products = shoppingList.getOrder().getProducts();
@@ -96,7 +96,12 @@ public class ShoppingService {
             }
         }
         if (!orderNotExists) {
-            products.add(productExists);
+            Product productToAdd = new Product();
+            productToAdd.setIdProduct(productExists.getIdProduct());
+            productToAdd.setName(productExists.getName());
+            productToAdd.setPrice(productExists.getPrice());
+            productToAdd.setQuantity(1);
+            products.add(productToAdd);
         }
         shoppingList.setAccount(shoppingList.getOrder().getProducts()
                 .stream()

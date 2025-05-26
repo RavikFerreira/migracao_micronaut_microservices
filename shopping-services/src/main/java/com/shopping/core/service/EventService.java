@@ -3,8 +3,6 @@ package com.shopping.core.service;
 import com.shopping.config.exceptions.ShoppingResourceNotFoundException;
 import com.shopping.core.dto.EventFilters;
 import com.shopping.core.models.Event;
-import com.shopping.core.models.EventProduct;
-import com.shopping.core.repository.EventProductRepository;
 import com.shopping.core.repository.EventRepository;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -22,8 +20,6 @@ public class EventService {
 
     @Inject
     private EventRepository eventRepository;
-    @Inject
-    private EventProductRepository eventProductRepository;
 
     public void notify(Event event){
         event.setShoppingId(event.getShoppingId());
@@ -63,8 +59,5 @@ public class EventService {
         eventRepository.save(event);
     }
 
-    public void saveProduct(EventProduct event){
-        eventProductRepository.save(event);
-    }
 }
 

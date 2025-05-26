@@ -1,19 +1,22 @@
 package com.shopping.core.models;
 
+
+
 import io.micronaut.data.annotation.GeneratedValue;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.serde.annotation.Serdeable;
+import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+
 
 @Serdeable
 @MappedEntity
 public class Product implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue
     private String id;
@@ -32,14 +35,12 @@ public class Product implements Serializable {
 
     public Product(){}
 
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
-
+    public String getId() {
+        return id;
+    }
     public String getIdProduct() {
         return idProduct;
     }
@@ -71,4 +72,5 @@ public class Product implements Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 }

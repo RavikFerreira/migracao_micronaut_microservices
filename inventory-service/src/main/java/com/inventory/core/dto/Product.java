@@ -10,14 +10,12 @@ public class Product implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private String id;
     private String idProduct;
     private String name;
     private double price = 0.0;
     private int quantity;
 
-    public Product(String id, String idProduct, String name, double price, int quantity) {
-        this.id = id;
+    public Product(String idProduct, String name, double price, int quantity) {
         this.idProduct = idProduct;
         this.name = name;
         this.price = price;
@@ -25,14 +23,6 @@ public class Product implements Serializable {
     }
 
     public Product(){}
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getIdProduct() {
         return idProduct;
@@ -65,4 +55,5 @@ public class Product implements Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 }

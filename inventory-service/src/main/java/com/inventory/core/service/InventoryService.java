@@ -1,8 +1,8 @@
 package com.inventory.core.service;
 
+
 import com.inventory.core.dto.*;
 import com.inventory.core.kafka.Producer;
-import com.inventory.core.kafka.ProducerProduct;
 import com.inventory.core.models.Inventory;
 import com.inventory.core.repository.InventoryRepository;
 import com.inventory.core.utils.JsonUtil;
@@ -28,13 +28,12 @@ public class InventoryService {
     @Inject
     private Producer producer;
     @Inject
-    private ProducerProduct producerProduct;
-    @Inject
     private InventoryRepository inventoryRepository;
 
     public void updateInventory(Event event){
         try{
             checkCurrentValidation(event);
+            createInventory(event);
             updateInventory(event.getPayload().getOrder());
             handleSuccess(event);
         }catch (Exception ex) {
@@ -50,19 +49,26 @@ public class InventoryService {
         }
     }
 
-    public void createInventory(EventProduct event){
-        Inventory inventory = findInventoryByIdProduct(event.getPayload().getIdProduct());
-        Inventory orderInventory = createInventory(event, inventory);
-        inventoryRepository.update(orderInventory);
-        producerProduct.sendEvent(jsonUtil.toJson(event));
 
+    private void createInventory(Event event){
+        event
+                .getPayload()
+                .getOrder()
+                .getProducts().forEach(product -> {
+                    Inventory orderInventory = createInventory(event, product);
+                    inventoryRepository.update(orderInventory);
+                } );
     }
-    private Inventory createInventory(EventProduct event, Inventory inventory){
-        Inventory inventory1 = new Inventory();
-        inventory1.setOldQuantity(inventory.getAvailable());
-        inventory1.setNewQuantity(inventory.getAvailable() - event.getPayload().getQuantity());
-        return inventoryRepository.save(inventory1);
+    private Inventory createInventory(Event event, Product product){
+        Inventory inventory = new Inventory();
+        inventory.setIdProduct(product.getIdProduct());
+        inventory.setShoppingId(event.getPayload().getIdShopping());
+        inventory.setTransactionId(event.getTransactionId());
+        inventory.setAvailable(product.getQuantity());
+        inventory.setOldQuantity(inventory.getAvailable());
+        return inventoryRepository.save(inventory);
     }
+
 
     private Inventory findInventoryByIdProduct(String idProduct){
         return inventoryRepository.findByIdProduct(idProduct).orElseThrow(() -> new RuntimeException("Inventory not found informed product"));
@@ -74,7 +80,8 @@ public class InventoryService {
                 .forEach(product -> {
                     Inventory inventory = findInventoryByIdProduct(product.getIdProduct());
                     checkInventory(inventory.getAvailable(), product.getQuantity());
-                    inventory.setAvailable(inventory.getAvailable() - product.getQuantity());
+                    inventory.setNewQuantity(inventory.getAvailable() - product.getQuantity());
+                    inventory.setAvailable(inventory.getAvailable());
                     inventoryRepository.update(inventory);
                 });
 
@@ -129,5 +136,4 @@ public class InventoryService {
                             event.getPayload().getIdShopping(), inventory.getNewQuantity(), inventory.getAvailable());
                 });
     }
-
 }

@@ -1,7 +1,6 @@
 package com.inventory.core.kafka;
 
 import com.inventory.core.dto.Event;
-import com.inventory.core.dto.EventProduct;
 import com.inventory.core.service.InventoryService;
 import com.inventory.core.utils.JsonUtil;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;

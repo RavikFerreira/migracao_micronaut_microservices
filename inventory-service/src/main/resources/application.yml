@@ -4,7 +4,7 @@ micronaut:
 
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/shopping-db
+    url: jdbc:postgresql://localhost:5432/inventory-db
     username: postgres
     password: 2503
     driver-class-name: org.postgresql.Driver
@@ -29,9 +29,7 @@ kafka:
     servers: localhost:9092
   topic:
     orchestrator: orchestrator
-    orchestrator-product: orchestrator-product
     inventory-success: inventory-success
-    inventory-product-success: inventory-product-success
     inventory-fail: inventory-fail
   consumer:
     group-id: inventory-group

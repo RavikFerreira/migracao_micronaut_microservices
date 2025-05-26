@@ -58,7 +58,17 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
+      <version>1.5.13</version>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>1.5.13</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.testresources</groupId>
@@ -99,6 +109,10 @@
       <artifactId>mongodb-driver-sync</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-runtime</artifactId>
+    </dependency>
 
 <!-- MICROMETER -->
     <dependency>
@@ -118,6 +132,10 @@
       <artifactId>micronaut-openapi-annotations</artifactId>
       <version>6.12.3</version>
     </dependency>
+      <dependency>
+          <groupId>io.micronaut.data</groupId>
+          <artifactId>micronaut-data-jpa</artifactId>
+      </dependency>
 
 
   </dependencies>
