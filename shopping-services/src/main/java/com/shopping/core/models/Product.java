@@ -1,12 +1,10 @@
 package com.shopping.core.models;
 
 
-
 import io.micronaut.data.annotation.GeneratedValue;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.serde.annotation.Serdeable;
-import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;

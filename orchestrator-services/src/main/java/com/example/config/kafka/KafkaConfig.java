@@ -21,7 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class KafkaConfig {
 
-    private static final int PARTITIONS_COUNT = 1;
+    private static final int PARTITIONS_COUNT = 2;
     private static final int REPLICA_COUNT = 1;
 
     @Value("${kafka.bootstrap.servers}")
@@ -62,8 +62,7 @@ public class KafkaConfig {
     }
 
     private NewTopic buildTopic(String name){
-        NewTopic topic =  new NewTopic(name, PARTITIONS_COUNT, (short) REPLICA_COUNT);
-        return topic;
+        return new NewTopic(name, PARTITIONS_COUNT, (short) REPLICA_COUNT);
     }
     @Bean
     public NewTopic startTopic(){

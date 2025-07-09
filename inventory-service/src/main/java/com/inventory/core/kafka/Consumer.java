@@ -1,6 +1,7 @@
 package com.inventory.core.kafka;
 
 import com.inventory.core.dto.Event;
+import com.inventory.core.dto.EventProduct;
 import com.inventory.core.service.InventoryService;
 import com.inventory.core.utils.JsonUtil;
 import io.micronaut.configuration.kafka.annotation.KafkaListener;
@@ -33,5 +34,11 @@ public class Consumer {
         LOG.info("Receiving rollback event {} from inventory-fail topic" , payload);
         Event event = jsonUtil.toEvent(payload);
         inventoryService.rollbackInventory(event);
+    }
+    @Topic("${kafka.topic.inventory-success}")
+    public void consumerInventorySuccessEventProduct(String payload){
+        LOG.info("Receiving success event {} from inventory-success topic" , payload);
+        EventProduct event = jsonUtil.toEventProduct(payload);
+        inventoryService.createInventory(event);
     }
 }

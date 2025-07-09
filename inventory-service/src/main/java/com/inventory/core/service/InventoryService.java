@@ -33,7 +33,6 @@ public class InventoryService {
     public void updateInventory(Event event){
         try{
             checkCurrentValidation(event);
-            createInventory(event);
             updateInventory(event.getPayload().getOrder());
             handleSuccess(event);
         }catch (Exception ex) {
@@ -50,23 +49,20 @@ public class InventoryService {
     }
 
 
-    private void createInventory(Event event){
-        event
-                .getPayload()
-                .getOrder()
-                .getProducts().forEach(product -> {
-                    Inventory orderInventory = createInventory(event, product);
-                    inventoryRepository.update(orderInventory);
-                } );
+    public void createInventory(EventProduct event) {
+        Product product = event.getPayload();
+        Inventory orderInventory = createInventory(event, product);
+        inventoryRepository.update(orderInventory);
+        producer.sendEvent(jsonUtil.toJson(event));
     }
-    private Inventory createInventory(Event event, Product product){
+
+    private Inventory createInventory(EventProduct event, Product product){
         Inventory inventory = new Inventory();
         inventory.setIdProduct(product.getIdProduct());
-        inventory.setShoppingId(event.getPayload().getIdShopping());
-        inventory.setTransactionId(event.getTransactionId());
         inventory.setAvailable(product.getQuantity());
         inventory.setOldQuantity(inventory.getAvailable());
-        return inventoryRepository.save(inventory);
+        inventoryRepository.save(inventory);
+        return inventory;
     }
 
 

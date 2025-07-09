@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @Serdeable
 public class History {
 
-    private EEventSource source;
-    private EStatus status;
+    private String source;
+    private String status;
     private String message;
     private LocalDateTime createdAt;
 
-    public History(EEventSource source, EStatus status, String message, LocalDateTime createdAt) {
+    public History(String source, String status, String message, LocalDateTime createdAt) {
         this.source = source;
         this.status = status;
         this.message = message;
@@ -25,19 +25,19 @@ public class History {
     public History() {
     }
 
-    public EEventSource getSource() {
+    public String getSource() {
         return source;
     }
 
-    public void setSource(EEventSource source) {
+    public void setSource(String source) {
         this.source = source;
     }
 
-    public EStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(EStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
