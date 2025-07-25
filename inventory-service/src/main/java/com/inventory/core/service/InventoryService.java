@@ -39,7 +39,7 @@ public class InventoryService {
             LOG.error("Error trying to update inventory: " , ex);
             handleFailCurrentNotExecuted(event, ex.getMessage());
         }
-            producer.sendEvent(jsonUtil.toJson(event));
+        producer.sendEvent(jsonUtil.toJson(event));
     }
 
     private void checkCurrentValidation(Event event){
@@ -47,24 +47,6 @@ public class InventoryService {
             throw new RuntimeException("There's another transactionId for this validation.");
         }
     }
-
-
-    public void createInventory(EventProduct event) {
-        Product product = event.getPayload();
-        Inventory orderInventory = createInventory(event, product);
-        inventoryRepository.update(orderInventory);
-        producer.sendEvent(jsonUtil.toJson(event));
-    }
-
-    private Inventory createInventory(EventProduct event, Product product){
-        Inventory inventory = new Inventory();
-        inventory.setIdProduct(product.getIdProduct());
-        inventory.setAvailable(product.getQuantity());
-        inventory.setOldQuantity(inventory.getAvailable());
-        inventoryRepository.save(inventory);
-        return inventory;
-    }
-
 
     private Inventory findInventoryByIdProduct(String idProduct){
         return inventoryRepository.findByIdProduct(idProduct).orElseThrow(() -> new RuntimeException("Inventory not found informed product"));
@@ -131,5 +113,60 @@ public class InventoryService {
                     LOG.info("Restored inventory for order {} from {} to {}",
                             event.getPayload().getIdShopping(), inventory.getNewQuantity(), inventory.getAvailable());
                 });
+    }
+
+    public void createInventory(EventProduct event) {
+        try{
+            Product product = event.getPayload();
+            Inventory orderInventory = createInventory(event, product);
+            inventoryRepository.update(orderInventory);
+            handleSuccess(event);
+        } catch (Exception ex){
+            LOG.error("Error trying to add to inventory: " , ex);
+            handleFailCurrentNotExecuted(event, ex.getMessage());
+        }
+        producer.sendEventProduct(jsonUtil.toJson(event));
+    }
+
+    private Inventory createInventory(EventProduct event, Product product){
+        Inventory inventory = new Inventory();
+        inventory.setIdProduct(event.getPayload().getIdProduct());
+        inventory.setAvailable(event.getPayload().getQuantity());
+        inventory.setOldQuantity(inventory.getAvailable());
+        inventoryRepository.save(inventory);
+        return inventory;
+    }
+
+    public void finishFailInventory(EventProduct event){
+        event.setStatus(FAIL);
+        event.setSource(CURRENT_SOURCE);
+        try{
+            addHistory(event, "Failed execution for inventory! ");
+
+        }catch (Exception ex){
+            addHistory(event, "Failed not execution for inventory! ".concat(ex.getMessage()));
+        }
+        producer.sendEvent(jsonUtil.toJson(event));
+    }
+
+    private void addHistory(EventProduct event, String message) {
+        History history = new History();
+        history.setSource(event.getSource());
+        history.setStatus(event.getStatus());
+        history.setMessage(message);
+        history.setCreatedAt(LocalDateTime.now());
+        event.addToHistory(history);
+    }
+
+    private void handleSuccess(EventProduct event) {
+        event.setStatus(SUCCESS);
+        event.setSource(CURRENT_SOURCE);
+        addHistory(event, "Inventory created successfully");
+    }
+
+    private void handleFailCurrentNotExecuted(EventProduct event, String message){
+        event.setStatus(ROLLBACK_PENDING);
+        event.setSource(CURRENT_SOURCE);
+        addHistory(event, "Fail to create inventory: ".concat(message));
     }
 }

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Singleton
 public class ProductValidationService {
     private static final Logger LOG = LoggerFactory.getLogger(ProductValidationService.class);
-    private static final String CURRENT_SOURCE = "PRODUCT_VALIDATION";
+    private static final String CURRENT_SOURCE = "PRODUCT_VALIDATION_SERVICE";
 
     @Inject
     private JsonUtil jsonUtil;

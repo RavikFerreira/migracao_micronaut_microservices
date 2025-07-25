@@ -3,7 +3,6 @@ package com.example.core.services;
 import com.example.core.dto.Event;
 import com.example.core.dto.EventProduct;
 import com.example.core.dto.History;
-import com.example.core.enums.EEventProductSource;
 import com.example.core.enums.EEventSource;
 import com.example.core.enums.EStatus;
 import com.example.core.enums.ETopic;
@@ -19,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
+import static com.example.core.enums.EEventSource.ORCHESTRATOR;
 import static com.example.core.enums.ETopic.NOTIFY;
 
 @Singleton
@@ -35,7 +35,7 @@ public class OrchestratorProductService {
     private SagaExecutionProductController sagaExecutionProductController;
 
     public void start(EventProduct event){
-        event.setSource(EEventProductSource.ORCHESTRATOR);
+        event.setSource(ORCHESTRATOR);
         event.setStatus(EStatus.SUCCESS);
         ETopic topic = getTopic(event);
         LOG.info("STARTED!");
@@ -43,14 +43,14 @@ public class OrchestratorProductService {
         sendToProducerWithTopic(event,topic);
     }
     public void finishSuccess(EventProduct event){
-        event.setSource(EEventProductSource.ORCHESTRATOR);
+        event.setSource(ORCHESTRATOR);
         event.setStatus(EStatus.SUCCESS);
         LOG.info("FINISHED SUCCESSFULLY FOR EVENT {}", event.getId());
         addHistory(event, "Finished successfully!");
         notifyFinished(event);
     }
     public void finishFail(EventProduct event){
-        event.setSource(EEventProductSource.ORCHESTRATOR);
+        event.setSource(ORCHESTRATOR);
         event.setStatus(EStatus.FAIL);
         LOG.info("FINISHED WITH ERRORS FOR EVENT {}", event.getId());
         addHistory(event, "Finished with errors!");

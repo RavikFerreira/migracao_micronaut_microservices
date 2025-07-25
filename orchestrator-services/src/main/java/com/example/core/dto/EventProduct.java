@@ -1,6 +1,5 @@
 package com.example.core.dto;
 
-import com.example.core.enums.EEventProductSource;
 import com.example.core.enums.EEventSource;
 import com.example.core.enums.EStatus;
 import io.micronaut.data.annotation.GeneratedValue;
@@ -22,13 +21,13 @@ public class EventProduct {
     private String id;
     private Product payload;
     @Enumerated(EnumType.STRING)
-    private EEventProductSource source;
+    private EEventSource source;
     @Enumerated(EnumType.STRING)
     private EStatus status;
     private List<History> eventHistory;
     private LocalDateTime createdAt;
 
-    public EventProduct(String id, Product payload, EEventProductSource source, EStatus status, List<History> eventHistory, LocalDateTime createdAt) {
+    public EventProduct(String id, Product payload, EEventSource source, EStatus status, List<History> eventHistory, LocalDateTime createdAt) {
         this.id = id;
         this.payload = payload;
         this.source = source;
@@ -56,11 +55,11 @@ public class EventProduct {
         this.payload = payload;
     }
 
-    public EEventProductSource getSource() {
+    public EEventSource getSource() {
         return source;
     }
 
-    public void setSource(EEventProductSource source) {
+    public void setSource(EEventSource source) {
         this.source = source;
     }
 

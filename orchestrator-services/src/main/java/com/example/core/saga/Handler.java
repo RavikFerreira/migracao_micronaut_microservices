@@ -1,5 +1,6 @@
 package com.example.core.saga;
 
+
 import static com.example.core.enums.EEventSource.*;
 import static com.example.core.enums.EEventSource.ORCHESTRATOR;
 import static com.example.core.enums.EStatus.FAIL;
@@ -14,9 +15,9 @@ public final class Handler {
             {ORCHESTRATOR, SUCCESS, PRODUCT_VALIDATION_SUCCESS},
             {ORCHESTRATOR, FAIL, FINISH_FAIL},
 
-            {PRODUCT_VALIDATION, ROLLBACK_PENDING, PRODUCT_VALIDATION_FAIL},
-            {PRODUCT_VALIDATION, FAIL, FINISH_FAIL},
-            {PRODUCT_VALIDATION, SUCCESS, INVENTORY_SUCCESS},
+            {PRODUCT_VALIDATION_SERVICE, ROLLBACK_PENDING, PRODUCT_VALIDATION_FAIL},
+            {PRODUCT_VALIDATION_SERVICE, FAIL, FINISH_FAIL},
+            {PRODUCT_VALIDATION_SERVICE, SUCCESS, INVENTORY_SUCCESS},
 
             {INVENTORY_SERVICE, ROLLBACK_PENDING, INVENTORY_FAIL},
             {INVENTORY_SERVICE, FAIL, PRODUCT_VALIDATION_FAIL},
@@ -33,7 +34,7 @@ public final class Handler {
             {ORCHESTRATOR, FAIL, FINISH_FAIL},
 
             {INVENTORY_SERVICE, ROLLBACK_PENDING, INVENTORY_FAIL},
-            {INVENTORY_SERVICE, FAIL, INVENTORY_FAIL},
+            {INVENTORY_SERVICE, FAIL, FINISH_FAIL},
             {INVENTORY_SERVICE, SUCCESS, FINISH_SUCCESS}
     };
 

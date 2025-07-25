@@ -2,7 +2,6 @@ package com.example.core.saga;
 
 import com.example.core.dto.Event;
 import com.example.core.dto.EventProduct;
-import com.example.core.enums.EEventProductSource;
 import com.example.core.enums.EEventSource;
 import com.example.core.enums.ETopic;
 import io.micronaut.http.annotation.Controller;
@@ -46,7 +45,7 @@ public class SagaExecutionProductController {
     }
     private void logCurrentSaga(EventProduct event, ETopic topic){
         var sagaId = createSagaId(event);
-        EEventProductSource source = event.getSource();
+        EEventSource source = event.getSource();
         switch (event.getStatus()){
             case SUCCESS -> LOG.info("### CURRENT SAGA: {} | SUCCESS | NEXT TOPIC {} | {}"
                     , source, topic, sagaId);

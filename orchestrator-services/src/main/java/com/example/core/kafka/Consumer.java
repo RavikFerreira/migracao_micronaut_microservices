@@ -5,11 +5,12 @@ import com.example.core.dto.EventProduct;
 import com.example.core.services.OrchestratorProductService;
 import com.example.core.services.OrchestratorService;
 import com.example.core.utils.JsonUtil;
-import io.micronaut.configuration.kafka.annotation.KafkaListener;
-import io.micronaut.configuration.kafka.annotation.Topic;
+import io.micronaut.configuration.kafka.annotation.*;
 import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 @KafkaListener(groupId = "${kafka.consumer.group-id}")
 public class Consumer {
@@ -23,53 +24,57 @@ public class Consumer {
     private OrchestratorProductService orchestratorProductService;
 
     @Topic("${kafka.topic.start}")
-    public void consumerStartEvent(String payload){
-        LOG.info("Receiving event {} from start topic" , payload);
-        Event event = jsonUtil.toEvent(payload);
-        orchestratorService.start(event);
-    }
-
-    @Topic("${kafka.topic.start}")
-    public void consumerStartProductEvent(String payload){
-        LOG.info("Receiving event {} from start topic" , payload);
-        EventProduct event = jsonUtil.toEventProduct(payload);
-        orchestratorProductService.start(event);
-    }
-    @Topic("${kafka.topic.orchestrator}")
-    public void consumerOrchestratorEvent(String payload){
-        LOG.info("Receiving event {} from orchestrator topic" , payload);
-        Event event = jsonUtil.toEvent(payload);
-        orchestratorService.continueSaga(event);
+    public void consumerStartEvent(@KafkaKey String key, String payload) {
+        if (Objects.equals(key, "1")) {
+            LOG.info("Receiving event {} from start topic", payload);
+            Event event = jsonUtil.toEvent(payload);
+            orchestratorService.start(event);
+        }
+        if (Objects.equals(key, "2")) {
+            LOG.info("Receiving event {} from start product topic", payload);
+            EventProduct event = jsonUtil.toEventProduct(payload);
+            orchestratorProductService.start(event);
+        }
     }
 
     @Topic("${kafka.topic.orchestrator}")
-    public void consumerOrchestratorProductEvent(String payload){
-        LOG.info("Receiving event {} from orchestrator topic" , payload);
-        EventProduct event = jsonUtil.toEventProduct(payload);
-        orchestratorProductService.continueSaga(event);
+    public void consumerOrchestratorEvent(@KafkaKey String key, String payload) {
+        if (Objects.equals(key, "1")) {
+            LOG.info("Receiving event {} from orchestrator topic", payload);
+            Event event = jsonUtil.toEvent(payload);
+            orchestratorService.continueSaga(event);
+        }
+        if (Objects.equals(key, "2")) {
+            LOG.info("Receiving event product {} from orchestrator topic", payload);
+            EventProduct event = jsonUtil.toEventProduct(payload);
+            orchestratorProductService.continueSaga(event);
+        }
     }
+
     @Topic("${kafka.topic.finish-success}")
-    public void consumerFinishSuccessEvent(String payload){
-        LOG.info("Receiving event {} from finish-success topic" , payload);
-        Event event = jsonUtil.toEvent(payload);
-        orchestratorService.finishSuccess(event);
+    public void consumerFinishSuccessEvent(@KafkaKey String key, String payload) {
+        if (Objects.equals(key, "1")) {
+            LOG.info("Receiving event {} from finish-success topic", payload);
+            Event event = jsonUtil.toEvent(payload);
+            orchestratorService.finishSuccess(event);
+        }
+        if (Objects.equals(key, "2")) {
+            LOG.info("Receiving event product {} from finish-success topic",payload);
+            EventProduct event = jsonUtil.toEventProduct(payload);
+            orchestratorProductService.finishSuccess(event);
+        }
     }
     @Topic("${kafka.topic.finish-fail}")
-    public void consumerFinishFailEvent(String payload){
-        LOG.info("Receiving ending notification event {} from finish-fail topic" , payload);
-        Event event = jsonUtil.toEvent(payload);
-        orchestratorService.finishFail(event);
-    }
-    @Topic("${kafka.topic.finish-success}")
-    public void consumerFinishSuccessEventProduct(String payload){
-        LOG.info("Receiving event {} from finish-success topic" , payload);
-        EventProduct event = jsonUtil.toEventProduct(payload);
-        orchestratorProductService.finishSuccess(event);
-    }
-    @Topic("${kafka.topic.finish-fail}")
-    public void consumerFinishFailEventProduct(String payload){
-        LOG.info("Receiving ending notification event {} from finish-fail topic" , payload);
-        EventProduct event = jsonUtil.toEventProduct(payload);
-        orchestratorProductService.finishFail(event);
+    public void consumerFinishFailEvent(@KafkaKey String key, String payload){
+        if (Objects.equals(key, "1")) {
+            LOG.info("Receiving ending notification event {} from finish-fail topic", payload);
+            Event event = jsonUtil.toEvent(payload);
+            orchestratorService.finishFail(event);
+        }
+        if (Objects.equals(key, "2")) {
+            LOG.info("Receiving ending notification event product {} from finish-fail topic" , payload);
+            EventProduct event = jsonUtil.toEventProduct(payload);
+            orchestratorProductService.finishFail(event);
+        }
     }
 }

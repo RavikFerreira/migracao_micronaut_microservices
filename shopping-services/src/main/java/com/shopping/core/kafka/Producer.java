@@ -23,7 +23,9 @@ public class Producer {
     public void sendEvent(String payload){
         try {
             LOG.info("Sending event to topic {} with data {}", startTopic, payload);
-            ProducerRecord<Object, Object> record = new ProducerRecord<>(startTopic, payload);
+            int partition = 1;
+            String key = "1";
+            ProducerRecord<Object, Object> record = new ProducerRecord<>(startTopic, partition, key,  payload);
             kafkaProducer.send(record);
         } catch (Exception e) {
             LOG.error("Error trying to send data to topic {} with data {}", startTopic, payload, e);
@@ -31,12 +33,13 @@ public class Producer {
     }
     public void sendEventProduct(String payload){
         try {
-            LOG.info("Sending event to topic {} with data {}", startTopic, payload);
-            int partition = 1;
-            ProducerRecord<Object, Object> record = new ProducerRecord<>(startTopic, String.valueOf(partition), payload);
+            LOG.info("Sending event product to topic {} with data {}", startTopic, payload);
+            int partition = 0;
+            String key = "2";
+            ProducerRecord<Object, Object> record = new ProducerRecord<>(startTopic, partition, key, payload);
             kafkaProducer.send(record);
         } catch (Exception e) {
-            LOG.error("Error trying to send data to topic {} with data {}", startTopic, payload, e);
+            LOG.error("Error trying to send data to topic {} with data {}", startTopic,  payload, e);
         }
     }
 }

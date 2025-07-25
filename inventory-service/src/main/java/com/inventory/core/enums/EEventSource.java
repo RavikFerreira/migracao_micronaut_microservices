@@ -1,6 +1,6 @@
 package com.inventory.core.enums;
 
-public enum EEventProductSource {
+public enum EEventSource {
 
     ORCHESTRATOR,
     INVENTORY_SERVICE,

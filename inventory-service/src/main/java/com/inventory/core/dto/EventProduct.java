@@ -1,6 +1,6 @@
 package com.inventory.core.dto;
 
-import com.inventory.core.enums.EEventProductSource;
+import com.inventory.core.enums.EEventSource;
 import com.inventory.core.enums.EStatus;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.EnumType;
@@ -18,13 +18,13 @@ public class EventProduct {
     private String id;
     private Product payload;
     @Enumerated(EnumType.STRING)
-    private EEventProductSource source;
+    private String source;
     @Enumerated(EnumType.STRING)
     private EStatus status;
     private List<History> eventHistory;
     private LocalDateTime createdAt;
 
-    public EventProduct(String id, Product payload, EEventProductSource source, EStatus status, List<History> eventHistory, LocalDateTime createdAt) {
+    public EventProduct(String id, Product payload, String source, EStatus status, List<History> eventHistory, LocalDateTime createdAt) {
         this.id = id;
         this.payload = payload;
         this.source = source;
@@ -52,11 +52,11 @@ public class EventProduct {
         this.payload = payload;
     }
 
-    public EEventProductSource getSource() {
+    public String getSource() {
         return source;
     }
 
-    public void setSource(EEventProductSource source) {
+    public void setSource(String source) {
         this.source = source;
     }
 
