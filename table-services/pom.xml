@@ -40,7 +40,6 @@
     <dependency>
       <groupId>io.micronaut.kafka</groupId>
       <artifactId>micronaut-kafka</artifactId>
-      <version>5.6.0</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut</groupId>
@@ -50,9 +49,7 @@
     <dependency>
       <groupId>io.micronaut.serde</groupId>
       <artifactId>micronaut-serde-jackson</artifactId>
-      <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>io.micronaut.sql</groupId>
       <artifactId>micronaut-jdbc-hikari</artifactId>
@@ -63,7 +60,6 @@
       <artifactId>logback-classic</artifactId>
       <scope>runtime</scope>
     </dependency>
-
     <dependency>
       <groupId>io.micronaut.testresources</groupId>
       <artifactId>micronaut-test-resources-client</artifactId>
@@ -94,16 +90,6 @@
       <artifactId>lombok</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-core</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-runtime</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>io.micronaut.data</groupId>
       <artifactId>micronaut-data-mongodb</artifactId>
       <version>4.9.4</version>
@@ -113,13 +99,6 @@
       <artifactId>mongodb-driver-sync</artifactId>
       <scope>runtime</scope>
     </dependency>
-
-    <dependency>
-      <groupId>io.micronaut.openapi</groupId>
-      <artifactId>micronaut-openapi-annotations</artifactId>
-      <version>6.12.3</version>
-    </dependency>
-
 
 <!-- MICROMETER -->
     <dependency>
@@ -133,6 +112,11 @@
     <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-management</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.openapi</groupId>
+      <artifactId>micronaut-openapi-annotations</artifactId>
+      <version>6.12.3</version>
     </dependency>
 
 
@@ -164,6 +148,7 @@
             <path>
               <groupId>io.micronaut.openapi</groupId>
               <artifactId>micronaut-openapi</artifactId>
+              <version>6.12.3</version>
             </path>
             <path>
               <groupId>io.micronaut</groupId>

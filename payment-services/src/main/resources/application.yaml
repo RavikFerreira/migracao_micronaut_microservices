@@ -45,11 +45,6 @@ redis:
     products:
       expire-after-write: 60s
 
-flyway:
-  datasources:
-    default:
-      enabled: true
-
 logger:
   levels:
     org.apache.kafka: OFF

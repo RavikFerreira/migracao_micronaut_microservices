@@ -2,9 +2,12 @@ package com.tables.core.service;
 
 import com.tables.config.exceptions.ItIsNotPossibleToAddAProductToTheMenuWithTheSameId;
 import com.tables.config.exceptions.ProductResourceNotFoundException;
+import com.tables.core.kafka.Producer;
+import com.tables.core.models.EventProduct;
 import com.tables.core.models.Product;
 import com.tables.core.repository.ProductRepository;
 import com.tables.core.repository.TableRepository;
+import com.tables.core.utils.JsonUtil;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -18,6 +21,12 @@ public class ProductService {
     private ProductRepository productRepository;
     @Inject
     private TableRepository tableRepository;
+    @Inject
+    private Producer producer;
+    @Inject
+    private JsonUtil jsonUtil;
+    @Inject
+    private EventService eventService;
 
     public List<Product> productList(){
         return productRepository.findAll();
@@ -29,17 +38,23 @@ public class ProductService {
             throw new ItIsNotPossibleToAddAProductToTheMenuWithTheSameId(product.getIdProduct());
         }
         product.setIdProduct(product.getIdProduct());
-        product.setQuantity(1);
+        product.setQuantity(product.getQuantity());
         productRepository.save(product);
+        producer.sendEvent(jsonUtil.toJson(createProductPayload(product)));
         return product;
+    }
+
+    private EventProduct createProductPayload(Product product){
+        EventProduct event = new EventProduct();
+        event.setId(product.getId());
+        event.setPayload(product);
+        eventService.save(event);
+        return event;
     }
     public Product searchProduct(String idProduct){
         Product product = productRepository.findByIdProduct(idProduct).orElseThrow(() -> new ProductResourceNotFoundException(idProduct));
         return product;
     }
-
-
-
 
     public Product updateOrderInProduct(String idProduct, Product product) {
         searchProduct(idProduct);

@@ -21,6 +21,7 @@ public class TableBar implements Serializable {
     private String idTable;
     private Order order;
     private double account = 0.0;
+
     private State state;
 
     public TableBar(String id, String idTable, Order order, double account, State state) {

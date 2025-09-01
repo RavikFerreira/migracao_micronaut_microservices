@@ -75,11 +75,11 @@ public class KafkaConfig {
         return buildTopic(orchestratorTopic);
     }
     @Bean
-    public NewTopic payment_successTopic(){
+    public NewTopic paymentSuccessTopic(){
         return buildTopic(paymentSuccessTopic);
     }
     @Bean
-    public NewTopic payment_failTopic(){
+    public NewTopic paymentFailTopic(){
         return buildTopic(paymentFailTopic);
     }
 }

@@ -17,7 +17,6 @@ public class Producer {
     @Inject
     private KafkaProducer kafkaProducer;
 
-
     public void sendEvent(String payload, String topic){
         try {
             LOG.info("Sending event to topic {} with data {}", topic, payload);
