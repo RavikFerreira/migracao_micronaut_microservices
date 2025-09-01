@@ -22,6 +22,9 @@ Sistema de bar que demonstra uma arquitetura de **microsserviços** usando **Mic
 - `inventory-services` – organiza todo o inventario gerenciando tudo que entra e sai.
 - `docker-compose.yaml` – inicia todos os serviços em contêineres.
 
+<img width="1920" height="1080" alt="Eventos (1)" src="https://github.com/user-attachments/assets/5a415602-ae09-42e1-ad1a-cee80ba3ced4" />
+
+
 ## Pré-requisitos
 - Java 21+
 - Docker
