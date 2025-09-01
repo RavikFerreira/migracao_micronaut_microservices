@@ -19,7 +19,7 @@ Sistema de bar que demonstra uma arquitetura de **microsserviços** usando **Mic
 - `payment-services` – trata lógica de pagamento.
 - `validation-product-services` – trata a lógica de validação de produtos.
 - `table-services` – gerencia dados/tabulares.
-- `invetory-services` – organiza todo o inventario gerenciando tudo que entra e sai.
+- `inventory-services` – organiza todo o inventario gerenciando tudo que entra e sai.
 - `docker-compose.yaml` – inicia todos os serviços em contêineres.
 
 ## Pré-requisitos
