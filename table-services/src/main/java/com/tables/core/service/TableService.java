@@ -112,7 +112,12 @@ public class TableService {
             }
         }
         if (!orderNotExists) {
-            products.add(productExists);
+            Product productToAdd = new Product();
+            productToAdd.setIdProduct(productExists.getIdProduct());
+            productToAdd.setName(productExists.getName());
+            productToAdd.setPrice(productExists.getPrice());
+            productToAdd.setQuantity(1);
+            products.add(productToAdd);
         }
         tables.setAccount(tables.getOrder().getProducts()
                 .stream()

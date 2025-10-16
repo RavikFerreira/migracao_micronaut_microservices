@@ -34,34 +34,46 @@ services:
     ports:
       - "5433:5432"
 
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+  inventory-db:
+    image: postgres:16
+    container_name: inventory-db
     networks:
       - orchestrator-services
+    environment:
+      POSTGRES_DB: inventory-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2503
     ports:
-      - "9090:9090"
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    networks:
-      - orchestrator-services
+      - "5434:5432"
 
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    networks:
-      - orchestrator-services
-    hostname: redis
-    restart: unless-stopped
+#  prometheus:
+#    image: prom/prometheus:latest
+#    container_name: prometheus
+#    volumes:
+#      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+#    networks:
+#      - orchestrator-services
+#    ports:
+#      - "9090:9090"
+#  grafana:
+#    image: grafana/grafana:latest
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - orchestrator-services
+#
+#  redis:
+#    image: redis:latest
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - orchestrator-services
+#    hostname: redis
+#    restart: unless-stopped
 
-  redpanda-console:
-    container_name: redpanda-console
-    image: docker.redpanda.com/vectorized/console:latest
+  redpanda:
+    container_name: redpanda
+    image: redpandadata/console:latest
     restart: on-failure
     entrypoint: /bin/sh
     command: -c "echo \"$$CONSOLE_CONFIG_FILE\" > /tmp/config.yml; /app/console"

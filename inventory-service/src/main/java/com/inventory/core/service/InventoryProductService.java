@@ -5,7 +5,7 @@ import com.inventory.core.enums.EProductStatus;
 import com.inventory.core.kafka.Producer;
 import com.inventory.core.models.Inventory;
 import com.inventory.core.repository.InventoryRepository;
-import com.inventory.core.utils.JsonUtilProduct;
+import com.inventory.core.utils.JsonUtil;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import lombok.AllArgsConstructor;
@@ -13,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
-
-import static com.inventory.core.enums.EStatus.*;
 
 @Singleton
 @AllArgsConstructor
@@ -24,7 +22,7 @@ public class InventoryProductService {
     private static final String CURRENT_SOURCE = "INVENTORY_SERVICE";
 
     @Inject
-    private JsonUtilProduct jsonUtilProduct;
+    private JsonUtil jsonUtil;
     @Inject
     private Producer producer;
     @Inject
@@ -40,7 +38,7 @@ public class InventoryProductService {
             LOG.error("Error trying to update inventory: " , ex);
             handleFailCurrentNotExecuted(event, ex.getMessage());
         }
-            producer.sendEvent(jsonUtilProduct.toJson(event));
+            producer.sendEventProduct(jsonUtil.toJson(event));
     }
 
     private void checkCurrentValidation(EventProduct event){
@@ -101,7 +99,7 @@ public class InventoryProductService {
         }catch (Exception ex){
             addHistory(event, "Rollback not executed for inventory! ".concat(ex.getMessage()));
         }
-        producer.sendEvent(jsonUtilProduct.toJson(event));
+        producer.sendEventProduct(jsonUtil.toJson(event));
     }
 
     private void returnInventoryToPreviousValues(EventProduct event){
