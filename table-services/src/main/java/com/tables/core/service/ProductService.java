@@ -40,7 +40,7 @@ public class ProductService {
         product.setIdProduct(product.getIdProduct());
         product.setQuantity(product.getQuantity());
         productRepository.save(product);
-        producer.sendEventProduct(jsonUtil.toJson(createProductPayload(product)));
+        producer.sendEvent(jsonUtil.toJson(createProductPayload(product)));
         return product;
     }
 
@@ -58,13 +58,11 @@ public class ProductService {
 
     public Product updateOrderInProduct(String idProduct, Product product) {
         searchProduct(idProduct);
-        Product updateProduct = new Product();
-        updateProduct.setName(product.getName());
-        updateProduct.setPrice(product.getPrice());
-        updateProduct.setQuantity(product.getQuantity());
-        productRepository.update(updateProduct);
-        producer.sendEventProduct(jsonUtil.toJson(createProductPayload(updateProduct)));
-        return updateProduct;
+        product.setIdProduct(product.getIdProduct());
+        product.setName(product.getName());
+        product.setPrice(product.getPrice());
+        productRepository.save(product);
+        return product;
     }
 
     public Product deleteProduct(String idProduct) {
