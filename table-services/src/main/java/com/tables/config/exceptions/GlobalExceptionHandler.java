@@ -85,4 +85,12 @@ public class GlobalExceptionHandler {
         return HttpResponse.status(status).body(err);
     }
 
+    @Error(exception = QuantityProductInvalid.class)
+    public HttpResponse<StandardError> handleQuantityProductInvalid(QuantityProductInvalid ex, HttpRequest request) {
+        String error = "Sem estoque no invetario!";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(status, error, ex.getMessage(), request.getPath());
+        return HttpResponse.status(status).body(err);
+    }
+
 }
