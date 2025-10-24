@@ -39,7 +39,7 @@ public class Consumer {
         if(Objects.equals(key, "2")) {
             LOG.info("Receiving success event {} from inventory-success topic", payload);
             EventProduct event = jsonUtil.toEventProduct(payload);
-            inventoryProductService.updateInventory(event);
+            inventoryProductService.createInventory(event);
         }
     }
     @Topic("${kafka.topic.inventory-fail}")

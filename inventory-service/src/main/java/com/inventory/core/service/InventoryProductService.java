@@ -28,47 +28,59 @@ public class InventoryProductService {
     @Inject
     private InventoryRepository inventoryRepository;
 
-    public void updateInventory(EventProduct event){
+//    public void updateInventory(EventProduct event){
+//        try{
+//            checkCurrentValidation(event);
+//            createInventory(event);
+//            updateInventory(event.getPayload());
+//            handleSuccess(event);
+//        }catch (Exception ex) {
+//            LOG.error("Error trying to update inventory: " , ex);
+//            handleFailCurrentNotExecuted(event, ex.getMessage());
+//        }
+//            producer.sendEventProduct(jsonUtil.toJson(event));
+//    }
+
+//    private void checkCurrentValidation(EventProduct event){
+//        if(inventoryRepository.existsByIdProduct(event.getPayload().getIdProduct())){
+//            throw new RuntimeException("There's another productId for this validation.");
+//        }
+//    }
+    public void createInventory(EventProduct event) {
         try{
-            checkCurrentValidation(event);
-            createInventory(event);
-            updateInventory(event.getPayload());
+            Product product = event.getPayload();
+            Inventory orderInventory = createInventory(event, product);
+            inventoryRepository.update(orderInventory);
             handleSuccess(event);
-        }catch (Exception ex) {
-            LOG.error("Error trying to update inventory: " , ex);
+        } catch (Exception ex){
+            LOG.error("Error trying to add to inventory: " , ex);
             handleFailCurrentNotExecuted(event, ex.getMessage());
         }
-            producer.sendEventProduct(jsonUtil.toJson(event));
+        producer.sendEventProduct(jsonUtil.toJson(event));
     }
-
-    private void checkCurrentValidation(EventProduct event){
-        if(inventoryRepository.existsByIdProduct(event.getPayload().getIdProduct())){
-            throw new RuntimeException("There's another productId for this validation.");
-        }
-    }
-    private Inventory createInventory(EventProduct event){
+    private Inventory createInventory(EventProduct event, Product product){
         Inventory inventory = new Inventory();
         inventory.setIdProduct(event.getPayload().getIdProduct());
         inventory.setAvailable(event.getPayload().getQuantity());
         inventory.setOldQuantity(inventory.getAvailable());
-        return inventoryRepository.save(inventory);
+        return inventory;
     }
 
-    private Inventory findInventoryByIdProduct(String idProduct){
-        return inventoryRepository.findByIdProduct(idProduct).orElseThrow(() -> new RuntimeException("Inventory not found informed product"));
-    }
+//    private Inventory findInventoryByIdProduct(String idProduct){
+//        return inventoryRepository.findByIdProduct(idProduct).orElseThrow(() -> new RuntimeException("Inventory not found informed product"));
+//    }
 
-    private void updateInventory(Product product){
-        Inventory inventory = findInventoryByIdProduct(product.getIdProduct());
-        checkInventory(inventory.getAvailable(), product.getQuantity());
-        inventory.setAvailable(inventory.getAvailable() - product.getQuantity());
-        inventoryRepository.update(inventory);
-    }
-    private void checkInventory(int available, int orderQuantity){
-        if(orderQuantity > available){
-            throw new RuntimeException("Product is out of stock");
-        }
-    }
+//    private void updateInventory(Product product){
+//        Inventory inventory = findInventoryByIdProduct(product.getIdProduct());
+//        checkInventory(inventory.getAvailable(), product.getQuantity());
+//        inventory.setAvailable(inventory.getAvailable() - product.getQuantity());
+//        inventoryRepository.update(inventory);
+//    }
+//    private void checkInventory(int available, int orderQuantity){
+//        if(orderQuantity > available){
+//            throw new RuntimeException("Product is out of stock");
+//        }
+//    }
 
     private void handleSuccess(EventProduct event){
         event.setStatus(EProductStatus.SUCCESS);

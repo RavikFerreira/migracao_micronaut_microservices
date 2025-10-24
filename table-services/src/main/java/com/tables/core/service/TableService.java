@@ -1,11 +1,7 @@
 package com.tables.core.service;
 
 
-import com.tables.config.exceptions.CannotCreateATableWithTheSameId;
-import com.tables.config.exceptions.CannotDeleteABusyTable;
-import com.tables.config.exceptions.PaymentNotRealizedException;
-import com.tables.config.exceptions.ProductResourceNotFoundException;
-import com.tables.config.exceptions.TablesResourceNotFoundException;
+import com.tables.config.exceptions.*;
 import com.tables.core.kafka.Producer;
 import com.tables.core.models.Event;
 import com.tables.core.models.Order;
@@ -79,8 +75,6 @@ public class TableService {
         tables.setState(State.LIVRE);
 
         tableRepository.save(tables);
-        counter.increment();
-
         return tables;
     }
     public TableBar addOrder(String idTable){
@@ -107,6 +101,13 @@ public class TableService {
         for(Product product : products){
             if(product.getIdProduct().equals(productExists.getIdProduct())){
                 product.setQuantity(product.getQuantity() + 1);
+                if(productExists.getQuantity() > 0){
+                    productExists.setQuantity(productExists.getQuantity() -1);
+                    productRepository.update(productExists);
+                }
+                else{
+                    throw new QuantityProductInvalid("Quantidade de produto inválida");
+                }
                 orderNotExists = true;
                 break;
             }
@@ -117,6 +118,13 @@ public class TableService {
             productToAdd.setName(productExists.getName());
             productToAdd.setPrice(productExists.getPrice());
             productToAdd.setQuantity(1);
+            if(productExists.getQuantity() > 0){
+                productExists.setQuantity(productExists.getQuantity() -1);
+                productRepository.update(productExists);
+            }
+            else{
+                throw new QuantityProductInvalid("Quantidade de produto inválida");
+            }
             products.add(productToAdd);
         }
         tables.setAccount(tables.getOrder().getProducts()
@@ -125,6 +133,7 @@ public class TableService {
                 .reduce(0.0, Double::sum));
 
         tableRepository.update(tables);
+        producer.sendEvent(jsonUtil.toJson(createPayload(tables)));
         return tables;
     }
 

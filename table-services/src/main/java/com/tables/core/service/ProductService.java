@@ -58,11 +58,13 @@ public class ProductService {
 
     public Product updateOrderInProduct(String idProduct, Product product) {
         searchProduct(idProduct);
-        product.setIdProduct(product.getIdProduct());
-        product.setName(product.getName());
-        product.setPrice(product.getPrice());
-        productRepository.save(product);
-        return product;
+        Product updateProduct = new Product();
+        updateProduct.setName(product.getName());
+        updateProduct.setPrice(product.getPrice());
+        updateProduct.setQuantity(product.getQuantity());
+        productRepository.update(updateProduct);
+        producer.sendEventProduct(jsonUtil.toJson(createProductPayload(updateProduct)));
+        return updateProduct;
     }
 
     public Product deleteProduct(String idProduct) {
