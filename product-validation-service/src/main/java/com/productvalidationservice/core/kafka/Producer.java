@@ -1,6 +1,5 @@
 package com.productvalidationservice.core.kafka;
 
-import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.context.annotation.Value;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -23,8 +22,7 @@ public class Producer {
     public void sendEvent(String payload){
         try {
             LOG.info("Sending event to topic {} with data {} ", orchestratorTopic, payload);
-            String key = "1";
-            ProducerRecord<String, Object> record = new ProducerRecord<>(orchestratorTopic, key, payload);
+            ProducerRecord<String, Object> record = new ProducerRecord<>(orchestratorTopic, payload);
             kafkaProducer.send(record);
         } catch (Exception e) {
             LOG.error("Error trying to send data to topic {} with data {}", orchestratorTopic, payload, e);

@@ -1,6 +1,6 @@
 package com.inventory.core.utils;
 
-import com.inventory.core.dto.Event;
+import com.inventory.core.dto.EventProduct;
 import io.micronaut.serde.ObjectMapper;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 
 @Singleton
 @AllArgsConstructor
-public class JsonUtil {
+public class JsonUtilProduct {
 
     @Inject
     private ObjectMapper objectMapper;
@@ -21,9 +21,9 @@ public class JsonUtil {
         }
     }
 
-    public Event toEvent(String json){
+    public EventProduct toEvent(String json){
         try{
-            return objectMapper.readValue(json, Event.class);
+            return objectMapper.readValue(json, EventProduct.class);
         } catch (Exception e){
             return null;
         }
