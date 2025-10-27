@@ -107,6 +107,8 @@ public class TableService {
         for(Product product : products){
             if(product.getIdProduct().equals(productExists.getIdProduct())){
                 product.setQuantity(product.getQuantity() + 1);
+                productExists.setQuantity(productExists.getQuantity() - product.getQuantity());
+                productRepository.update(productExists);
                 orderNotExists = true;
                 break;
             }
@@ -117,6 +119,8 @@ public class TableService {
             productToAdd.setName(productExists.getName());
             productToAdd.setPrice(productExists.getPrice());
             productToAdd.setQuantity(1);
+            productExists.setQuantity(productExists.getQuantity() - productToAdd.getQuantity());
+            productRepository.update(productExists);
             products.add(productToAdd);
         }
         tables.setAccount(tables.getOrder().getProducts()
