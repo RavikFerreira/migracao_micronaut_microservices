@@ -1,7 +1,7 @@
 package com.example.core.saga;
 
 import com.example.core.dto.EventProduct;
-import com.example.core.enums.EEventProductSource;
+import com.example.core.enums.EEventSource;
 import com.example.core.enums.ETopic;
 import io.micronaut.http.annotation.Controller;
 import org.slf4j.Logger;
@@ -9,7 +9,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
-import static com.example.core.saga.HandlerProduct.*;
+import static com.example.core.saga.Handler.EVENT_SOURCE_INDEX;
+import static com.example.core.saga.Handler.HANDLER_PRODUCT;
+import static com.example.core.saga.Handler.STATUS_INDEX;
+import static com.example.core.saga.Handler.TOPIC_INDEX;
 import static java.lang.String.format;
 
 
@@ -41,7 +44,7 @@ public class SagaExecutionProductController {
     }
     private void logCurrentSaga(EventProduct event, ETopic topic){
         var sagaId = createSagaId(event);
-        EEventProductSource source = event.getProductSource();
+        EEventSource source = event.getProductSource();
         switch (event.getProductStatus()){
             case SUCCESS -> LOG.info("### CURRENT SAGA: {} | SUCCESS | NEXT TOPIC {} | {}"
                     , source, topic, sagaId);

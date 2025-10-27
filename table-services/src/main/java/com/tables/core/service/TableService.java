@@ -129,6 +129,7 @@ public class TableService {
                 .reduce(0.0, Double::sum));
 
         tableRepository.update(tables);
+        producer.sendEvent(jsonUtil.toJson(createPayload(tables)));
         return tables;
     }
 
