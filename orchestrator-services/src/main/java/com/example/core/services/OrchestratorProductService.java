@@ -74,10 +74,10 @@ public class OrchestratorProductService {
     }
 
     private void sendToProducerWithTopic(EventProduct event, ETopic topic){
-        producer.sendEventProduct(jsonUtil.toJson(event), topic.getTopic());
+        producer.sendEvent(jsonUtil.toJson(event), topic.getTopic());
     }
 
     private void notifyFinished(EventProduct event){
-        producer.sendEventProduct(jsonUtil.toJson(event), NOTIFY.getTopic());
+        producer.sendEvent(jsonUtil.toJson(event), NOTIFY.getTopic());
     }
 }

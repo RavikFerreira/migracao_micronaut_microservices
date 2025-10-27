@@ -40,7 +40,7 @@ public class ProductService {
         product.setIdProduct(product.getIdProduct());
         product.setQuantity(product.getQuantity());
         productRepository.save(product);
-        producer.sendEventProduct(jsonUtil.toJson(createProductPayload(product)));
+        producer.sendEvent(jsonUtil.toJson(createProductPayload(product)));
         return product;
     }
 
