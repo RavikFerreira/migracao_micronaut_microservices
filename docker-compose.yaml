@@ -11,7 +11,7 @@ services:
       - "27017:27017"
 
   payment-db:
-    image: postgres:16
+    image: postgres:latest
     container_name: payment-db
     networks:
       - orchestrator-services
@@ -22,8 +22,20 @@ services:
     ports:
       - "5432:5432"
 
+  inventory-db:
+    image: postgres:latest
+    container_name: inventory-db
+    networks:
+      - orchestrator-services
+    environment:
+      POSTGRES_DB: inventory-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2503
+    ports:
+      - "5434:5432"
+
   product-db:
-    image: postgres:16
+    image: postgres:latest
     container_name: product-db
     networks:
       - orchestrator-services
