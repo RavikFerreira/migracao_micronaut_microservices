@@ -129,7 +129,17 @@ public class TableService {
                 .reduce(0.0, Double::sum));
 
         tableRepository.update(tables);
-        producer.sendEvent(jsonUtil.toJson(createPayload(tables)));
+        return tables;
+    }
+    public TableBar finalizedOrder(String idTable){
+        TableBar tables = tableRepository.findByIdTable(idTable).orElseThrow(() -> new TablesResourceNotFoundException("Tables resource not found! "));
+        if(tables.getOrder().getProducts().isEmpty()){
+            throw new ProductResourceNotFoundException("Order list is empty! ");
+        }
+        else {
+            tableRepository.update(tables);
+            producer.sendEvent(jsonUtil.toJson(createPayload(tables)));
+        }
         return tables;
     }
 
